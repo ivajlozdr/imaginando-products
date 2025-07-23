@@ -11,8 +11,8 @@ ApplicationWindow {
     Image {
         id: logo
         source: "qrc:/logo_imaginando.jpeg"
-        width: 100
-        height: 100
+        width: 90
+        height: 90
     }
 
     ListModel {
@@ -29,39 +29,50 @@ ApplicationWindow {
         }
     }
 
-    ListView {
-        anchors.fill: parent
-        model: jsonModel
-        topMargin: 110
-        spacing: 10
-        delegate: Column {
-            width: parent.width
-            spacing: 8
+    ScrollView {
+            anchors.fill: parent
+            anchors.topMargin: 100
+            anchors.leftMargin: 10
+            anchors.rightMargin: 10
 
-            Image {
-                source: model.cover
-                width: 200
-                height: 100
-                fillMode: Image.PreserveAspectFit
-            }
+            ListView {
+                anchors.fill: parent
+                model: jsonModel
+                spacing: 10
+                clip: true
+                boundsBehavior: Flickable.DragAndOvershootBounds
+                snapMode: ListView.SnapToItem
 
-            Text {
-                text: model.name ?? "No name"
-                font.bold: true
-                font.pointSize: 14
-            }
-
-            Text {
-                text: model.webpage ?? "No link"
-                color: "blue"
-                font.italic: true
-            }
-
-            Rectangle {
-                height: 1
+            delegate: Column {
                 width: parent.width
-                color: "#cccccc"
+                spacing: 8
+
+                Image {
+                    source: model.cover
+                    width: 200
+                    height: 100
+                    fillMode: Image.PreserveAspectFit
+                }
+
+                Text {
+                    text: model.name ?? "No name"
+                    font.bold: true
+                    font.pointSize: 14
+                }
+
+                Text {
+                    text: model.webpage ?? "No link"
+                    color: "blue"
+                    font.italic: true
+                }
+
+                Rectangle {
+                    height: 1
+                    width: parent.width
+                    color: "#cccccc"
+                }
             }
         }
     }
+
 }
