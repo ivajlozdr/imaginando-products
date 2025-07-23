@@ -4,27 +4,9 @@ import QtQuick.Layouts
 
 ApplicationWindow {
     visible: true
-    width: 600
-    height: 400
-    title: "JSON Viewer"
-
-    ListView {
-        anchors.fill: parent
-        model: jsonModel
-
-        delegate: Rectangle {
-            height: 50
-            width: parent.width
-            border.color: "#888"
-            color: "white"
-
-            Text {
-                anchors.centerIn: parent
-                text: modelData.name
-                color: "black"
-            }
-        }
-    }
+    width: 800
+    height: 600
+    title: "Product Viewer"
 
     ListModel {
         id: jsonModel
@@ -33,10 +15,44 @@ ApplicationWindow {
     Connections {
         target: backend
         function onDataReady(data) {
-            jsonModel.clear()
+            jsonModel.clear();
             for (let i = 0; i < data.length; ++i) {
-                let item = data[i];
-                jsonModel.append({ "name": item.name });
+                jsonModel.append(data[i]);
+            }
+        }
+    }
+
+    ListView {
+        anchors.fill: parent
+        model: jsonModel
+        spacing: 10
+        delegate: Column {
+            width: parent.width
+            spacing: 8
+
+            Image {
+                source: model.cover
+                width: 200
+                height: 100
+                fillMode: Image.PreserveAspectFit
+            }
+
+            Text {
+                text: model.name ?? "No name"
+                font.bold: true
+                font.pointSize: 14
+            }
+
+            Text {
+                text: model.webpage ?? "No link"
+                color: "blue"
+                font.italic: true
+            }
+
+            Rectangle {
+                height: 1
+                width: parent.width
+                color: "#cccccc"
             }
         }
     }

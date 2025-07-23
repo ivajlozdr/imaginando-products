@@ -5,8 +5,8 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonParseError>
+#include <QVariantMap>
 #include <QDebug>
-#include <QUrl>
 
 MyObject::MyObject(QObject *parent) : QObject(parent) {
     manager = new QNetworkAccessManager(this);
@@ -15,7 +15,10 @@ MyObject::MyObject(QObject *parent) : QObject(parent) {
 }
 
 void MyObject::TestConnection() {
-    manager->get(QNetworkRequest(QUrl("https://api.imaginando.pt/products")));
+    QNetworkRequest request(QUrl("https://api.imaginando.pt/products"));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    request.setRawHeader("Accept", "application/json");
+    manager->get(request);
 }
 
 void MyObject::ReplyFinished(QNetworkReply *reply) {
@@ -36,7 +39,21 @@ void MyObject::ReplyFinished(QNetworkReply *reply) {
     }
 
     QJsonArray jsonArray = jsonDoc.array();
-    emit dataReady(jsonArray);
+    QVariantList cleanData;
 
+    for (const QJsonValue &val : jsonArray) {
+        QJsonObject obj = val.toObject();
+        QVariantMap item;
+        item["id"] = obj["id"].toString();
+        item["name"] = obj["name"].toString();
+
+        QJsonObject meta = obj["meta"].toObject();
+        item["webpage"] = meta["webpage"].toString();
+        item["cover"] = meta["cover"].toString();
+
+        cleanData.append(item);
+    }
+
+    emit dataReady(cleanData);
     reply->deleteLater();
 }

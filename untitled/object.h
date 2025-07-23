@@ -1,6 +1,8 @@
+#pragma once
+
 #include <QObject>
 #include <QNetworkAccessManager>
-#include <QJsonArray>
+#include <QVariant>
 
 class QNetworkReply;
 
@@ -12,7 +14,7 @@ public:
     Q_INVOKABLE void TestConnection();
 
 signals:
-    void dataReady(QJsonArray data);
+    void dataReady(QVariant data);
 
 private slots:
     void ReplyFinished(QNetworkReply *reply);
