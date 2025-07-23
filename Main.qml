@@ -8,6 +8,13 @@ ApplicationWindow {
     height: 600
     title: "Product Viewer"
 
+    Image {
+        id: logo
+        source: "qrc:/logo_imaginando.jpeg"
+        width: 100
+        height: 100
+    }
+
     ListModel {
         id: jsonModel
     }
@@ -25,6 +32,7 @@ ApplicationWindow {
     ListView {
         anchors.fill: parent
         model: jsonModel
+        topMargin: 110
         spacing: 10
         delegate: Column {
             width: parent.width

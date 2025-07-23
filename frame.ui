@@ -6,23 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>973</width>
+    <height>601</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Frame</string>
   </property>
-  <widget class="QListView" name="listView">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>401</width>
-     <height>301</height>
-    </rect>
-   </property>
-  </widget>
  </widget>
  <resources/>
  <connections/>
