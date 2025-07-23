@@ -8,11 +8,20 @@ ApplicationWindow {
     height: 600
     title: "Product Viewer"
 
+    Rectangle {
+        id: background
+        anchors.fill: parent
+        color: "white"
+    }
+
     Image {
-        id: logo
+        id: mainLogo
         source: "qrc:/logo_imaginando.jpeg"
-        width: 90
-        height: 90
+        width: 200
+        height: 45
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        anchors.topMargin: 20
     }
 
     ListModel {
