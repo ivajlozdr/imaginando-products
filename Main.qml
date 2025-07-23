@@ -52,35 +52,60 @@ ApplicationWindow {
                 boundsBehavior: Flickable.DragAndOvershootBounds
                 snapMode: ListView.SnapToItem
 
-            delegate: Column {
-                width: parent.width
-                spacing: 8
-
-                Image {
-                    source: model.cover
-                    width: 200
-                    height: 100
-                    fillMode: Image.PreserveAspectFit
-                }
-
-                Text {
-                    text: model.name ?? "No name"
-                    font.bold: true
-                    font.pointSize: 14
-                }
-
-                Text {
-                    text: model.webpage ?? "No link"
-                    color: "blue"
-                    font.italic: true
-                }
-
-                Rectangle {
-                    height: 1
+                delegate: Row {
                     width: parent.width
-                    color: "#cccccc"
+                    spacing: 16
+
+                    Column {
+                        height: 200
+                        width: 200
+                        Image {
+                            source: model.cover
+                            width: 200
+                            height: 100
+                            fillMode: Image.PreserveAspectFit
+                        }
+                    }
+
+                    Column {
+                        width: parent.width - 350
+                        anchors.leftMargin: 200
+
+                        spacing: 4
+
+                        Text {
+                            text: model.name ?? "No name"
+                            font.family: "Poppins"
+                            font.bold: true
+                            font.pointSize: 14
+                        }
+
+                        Text {
+                            text: model.webpage ?? "No link"
+                            font.family: "Poppins"
+                            color: "gray"
+                            font.italic: true
+                        }
+
+                        Rectangle {
+                            height: 1
+                            width: parent.width
+                            color: "#cccccc"
+                        }
+                    }
+
+                    Column {
+                        width: 150
+                        Button {
+                            font.family: "Poppins"
+                            text: "Download"
+                            onClicked: {
+                                Qt.openUrlExternally(model.webpage)
+                            }
+                        }
+                    }
                 }
-            }
+
         }
     }
 
