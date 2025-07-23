@@ -31,82 +31,95 @@ ApplicationWindow {
     Connections {
         target: backend
         function onDataReady(data) {
-            jsonModel.clear();
-            for (let i = 0; i < data.length; ++i) {
-                jsonModel.append(data[i]);
+            jsonModel.clear()
+            for (var i = 0; i < data.length; ++i) {
+                jsonModel.append(data[i])
             }
         }
     }
 
     ScrollView {
+        anchors.fill: parent
+        anchors.topMargin: 80
+        anchors.leftMargin: 10
+        anchors.rightMargin: 10
+
+        ListView {
             anchors.fill: parent
-            anchors.topMargin: 100
-            anchors.leftMargin: 10
-            anchors.rightMargin: 10
+            model: jsonModel
+            spacing: 10
+            clip: true
+            boundsBehavior: Flickable.DragAndOvershootBounds
+            snapMode: ListView.SnapToItem
 
-            ListView {
-                anchors.fill: parent
-                model: jsonModel
-                spacing: 10
-                clip: true
-                boundsBehavior: Flickable.DragAndOvershootBounds
-                snapMode: ListView.SnapToItem
+            delegate: Row {
+                width: parent.width
+                spacing: 16
 
-                delegate: Row {
-                    width: parent.width
-                    spacing: 16
-
-                    Column {
-                        height: 200
+                Column {
+                    height: 200
+                    width: 200
+                    Image {
+                        source: model.cover
                         width: 200
-                        Image {
-                            source: model.cover
-                            width: 200
-                            height: 100
-                            fillMode: Image.PreserveAspectFit
-                        }
+                        height: 100
+                        fillMode: Image.PreserveAspectFit
+                    }
+                }
+
+                Column {
+                    width: parent.width - 350
+                    anchors.leftMargin: 200
+
+                    spacing: 4
+
+                    Text {
+                        text: model.name ?? "No name"
+                        font.family: "Poppins"
+                        font.bold: true
+                        font.pointSize: 20
                     }
 
-                    Column {
-                        width: parent.width - 350
-                        anchors.leftMargin: 200
-
-                        spacing: 4
-
-                        Text {
-                            text: model.name ?? "No name"
-                            font.family: "Poppins"
-                            font.bold: true
-                            font.pointSize: 14
-                        }
-
-                        Text {
-                            text: model.webpage ?? "No link"
-                            font.family: "Poppins"
-                            color: "gray"
-                            font.italic: true
-                        }
-
-                        Rectangle {
-                            height: 1
-                            width: parent.width
-                            color: "#cccccc"
-                        }
+                    Text {
+                        text: model.webpage ?? "No link"
+                        font.family: "Poppins"
+                        color: "gray"
+                        font.italic: true
                     }
+                }
 
-                    Column {
-                        width: 150
-                        Button {
+                Column {
+                    width: 150
+                    Button {
+                        text: "Download"
+                        font.family: "Poppins"
+                        font.pointSize: 15
+
+                        background: Rectangle {
+                            radius: height / 2
+                            color: "#0078D7" // Customize as needed
+                        }
+
+                        contentItem: Text {
+                            text: qsTr("Download")
+                            anchors.centerIn: parent
                             font.family: "Poppins"
-                            text: "Download"
-                            onClicked: {
-                                Qt.openUrlExternally(model.webpage)
-                            }
+                            font.pointSize: 15
+                            color: "white"
+                        }
+
+                        onClicked: {
+                            Qt.openUrlExternally(model.webpage)
                         }
                     }
                 }
 
+                Rectangle {
+                    height: 1
+                    width: parent.width
+                    color: "black"
+                }
+            }
         }
     }
-
 }
