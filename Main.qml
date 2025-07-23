@@ -30,6 +30,7 @@ ApplicationWindow {
 
     Connections {
         target: backend
+
         function onDataReady(data) {
             jsonModel.clear()
             for (var i = 0; i < data.length; ++i) {
@@ -47,11 +48,11 @@ ApplicationWindow {
         ListView {
             anchors.fill: parent
             model: jsonModel
+            model: backend.model
             spacing: 10
             clip: true
             boundsBehavior: Flickable.DragAndOvershootBounds
             snapMode: ListView.SnapToItem
-
             delegate: Row {
                 width: parent.width
                 spacing: 16

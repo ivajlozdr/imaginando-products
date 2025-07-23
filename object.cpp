@@ -54,6 +54,8 @@ void MyObject::ReplyFinished(QNetworkReply *reply) {
         cleanData.append(item);
     }
 
-    emit dataReady(cleanData);
+    _model = cleanData;
+
+    emit modelChanged();
     reply->deleteLater();
 }
