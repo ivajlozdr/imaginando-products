@@ -1,7 +1,0 @@
-<RCC>
-  <qresource prefix="/qt/qml/untitled/">
-    <file alias="Main.qml">D:/Documents/GitHub/imaginando-products/Main.qml</file>
-    <file alias="Images.qrc">D:/Documents/GitHub/imaginando-products/Images.qrc</file>
-  </qresource>
-</RCC>
-
