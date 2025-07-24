@@ -17,7 +17,6 @@ Product Product::fromJson(const QJsonObject &obj)
     out.colorPrimary = meta.value("color_primary").toString();
     out.colorSecondary = meta.value("color_secondary").toString();
     QString downloadLink = Controller::getDownloadLinkForProduct(out.name);
-    qDebug() << "Download link for" << out.name << ":" << downloadLink;
     out.download = downloadLink;
 
     return out;

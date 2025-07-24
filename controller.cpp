@@ -1,5 +1,7 @@
 #include "controller.h"
+#include <QCoreApplication>
 #include <QDebug>
+#include <QDir>
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -28,9 +30,15 @@ void Controller::FetchProducts()
 
 QString Controller::getDownloadLinkForProduct(const QString &product)
 {
-    const QString filePath = "./Downloads.json";
+    QString basePath = QCoreApplication::applicationDirPath();
+    QString filePath = basePath + "/../../Downloads.json";
 
     QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "Failed to open" << filePath << ":" << file.errorString();
+        return {};
+    }
+
     QByteArray jsonData = file.readAll();
     file.close();
 
@@ -40,6 +48,7 @@ QString Controller::getDownloadLinkForProduct(const QString &product)
         qWarning() << "Error parsing downloads JSON:" << error.errorString();
         return {};
     }
+
     QJsonObject rootObj = doc.object();
     QJsonObject productObj = rootObj.value(product).toObject();
     QString downloadUrl = productObj.value("win").toString();
