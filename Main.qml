@@ -43,44 +43,62 @@ ApplicationWindow {
     ScrollView {
         anchors.fill: parent
         anchors.topMargin: 80
-        anchors.leftMargin: 10
-        anchors.rightMargin: 10
 
         ListView {
             anchors.fill: parent
             model: jsonModel
-            spacing: 10
             clip: true
             boundsBehavior: Flickable.DragAndOvershootBounds
             snapMode: ListView.SnapToItem
             delegate: Rectangle {
                 width: parent.width
                 height: contentItem.implicitHeight + 20
-                color: Qt.darker(
-                           model.color_primary,
-                           2.0)
                 radius: 4
+                border.color: "#00000000"
+                gradient: Gradient {
+                    GradientStop {
+                        position: 0.0
+                        color: Qt.darker(model.colorPrimary, 5.0)
+                    }
+                    GradientStop {
+                        position: 0.1
+                        color: Qt.darker(model.colorPrimary, 6.0)
+                    }
+                    GradientStop {
+                        position: 0.4
+                        color: Qt.darker(model.colorPrimary, 8.0)
+                    }
+                    GradientStop {
+                        position: 1.0
+                        color: "#000000"
+                    }
+                }
 
                 Row {
                     id: contentItem
                     width: parent.width
-                    anchors.margins: 10
-                    spacing: 16
+                    anchors.margins: 20
+                    spacing: 10
+
+                    Rectangle { // Left spacer
+                        width: 20
+                        height: 1
+                        color: "transparent"
+                    }
 
                     Column {
-                        height: 200
-                        width: 200
+                        anchors.leftMargin: 10
                         Image {
                             source: model.logo
-                            width: 200
-                            height: 100
+                            width: 180
+                            height: 180
                             fillMode: Image.PreserveAspectFit
                         }
                     }
 
                     Column {
-                        width: parent.width - 350
-                        anchors.leftMargin: 200
+                        width: parent.width - 400
+                        anchors.leftMargin: 220
                         spacing: 4
 
                         Text {
@@ -94,11 +112,17 @@ ApplicationWindow {
                         }
                     }
 
-                    Column {
-                        width: 150
+                    Item {
+                        width: 100
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.right: parent.right
+                        anchors.rightMargin: 5
+
                         DownloadButton {
-                            text: "Download"
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.right: parent.right
                             onClicked: Qt.openUrlExternally(model.download)
+                            font: Styles.buttonTxt
                         }
                     }
                 }
