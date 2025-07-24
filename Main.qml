@@ -48,7 +48,6 @@ ApplicationWindow {
         ListView {
             anchors.fill: parent
             model: jsonModel
-            model: backend.model
             spacing: 10
             clip: true
             boundsBehavior: Flickable.DragAndOvershootBounds
@@ -56,7 +55,6 @@ ApplicationWindow {
             delegate: Row {
                 width: parent.width
                 spacing: 16
-
                 Column {
                     height: 200
                     width: 200
@@ -88,7 +86,6 @@ ApplicationWindow {
                         font.italic: true
                     }
                 }
-
                 Column {
                     width: 150
                     Button {
@@ -98,7 +95,7 @@ ApplicationWindow {
 
                         background: Rectangle {
                             radius: height / 2
-                            color: "#0078D7" // Customize as needed
+                            color: "#0078D7"
                         }
 
                         contentItem: Text {
@@ -114,7 +111,6 @@ ApplicationWindow {
                         }
                     }
                 }
-
                 Rectangle {
                     height: 1
                     width: parent.width

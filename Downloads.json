@@ -1,0 +1,11 @@
+{
+    "BAM": {"win": "https://www.imaginando.pt/uploads/bam/1.5.1/BAM_Win.zip", "mac": "https://www.imaginando.pt/uploads/bam/1.5.1/BAM_Mac.zip"},
+    "DLYM": {"win": "https://www.imaginando.pt/uploads/dlym/2.2.0/DLYM_Win.zip", "mac": "https://www.imaginando.pt/uploads/dlym/2.2.0/DLYM_Mac.zip"},
+    "DRC": {"win": "https://www.imaginando.pt/uploads/drc/2.13.2/DRC_Win.zip", "mac": "https://www.imaginando.pt/uploads/drc/2.13.2/DRC_Mac.zip"},
+    "GRFX": {"win": "https://www.imaginando.pt/uploads/grfx/1.0.0/GRFX_Win.zip", "mac": "https://www.imaginando.pt/uploads/grfx/1.0.0/GRFX_Mac.zip"},
+    "K7D": {"win": "https://www.imaginando.pt/uploads/k7d/1.4.4/K7D_Win.zip", "mac": "https://www.imaginando.pt/uploads/k7d/1.4.4/K7D_Mac.zip"},
+    "TKFX": {"win": "https://www.imaginando.pt/uploads/tkfx/tkfx-mapping-3.0.zip", "mac": "https://www.imaginando.pt/uploads/tkfx/tkfx-mapping-3.0.zip"},
+    "TV3": {"win": "https://www.imaginando.pt/uploads/tv3/1.0.0/TV3_Win.zip", "mac": "https://www.imaginando.pt/uploads/tv3/1.0.0/TV3_Mac.zip"},
+    "URBIDGE": {"win": "https://www.imaginando.pt/uploads/ubridge/1.7.2/UBRIDGE_Win.zip", "mac": "https://www.imaginando.pt/uploads/ubridge/1.7.2/UBRIDGE_Mac.zip"},
+    "VS": {"win": "https://www.imaginando.pt/uploads/vs/1.9.0/VS_Win.zip", "mac": "https://www.imaginando.pt/uploads/vs/1.9.0/VS_Mac.zip"},
+}

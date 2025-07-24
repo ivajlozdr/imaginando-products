@@ -12,7 +12,7 @@ public:
     explicit MyObject(QObject *parent = nullptr);
 
     Q_INVOKABLE void TestConnection();
-
+    Q_INVOKABLE QString getDownloadLinkForProduct(const QString& product);
 signals:
     void dataReady(QVariant data);
 
