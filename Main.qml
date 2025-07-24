@@ -31,7 +31,7 @@ ApplicationWindow {
     }
 
     Connections {
-        target: backend
+        target: controller
 
         function onDataReady(data) {
             jsonModel.clear()

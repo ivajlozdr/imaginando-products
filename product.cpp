@@ -2,7 +2,7 @@
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QVariantMap>
-#include "object.h"
+#include "controller.h"
 
 Product Product::fromJson(const QJsonObject &obj)
 {

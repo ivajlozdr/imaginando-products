@@ -23,8 +23,8 @@ qt_add_qml_module(appuntitled
         Styles.qml
         DownloadButton.qml
     SOURCES
-        object.cpp
-        object.h
+        controller.cpp
+        controller.h
         product.h
         product.cpp
     RESOURCES
