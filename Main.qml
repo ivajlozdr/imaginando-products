@@ -98,7 +98,7 @@ ApplicationWindow {
                         width: 150
                         DownloadButton {
                             text: "Download"
-                            onClicked: Qt.openUrlExternally(model.webpage)
+                            onClicked: Qt.openUrlExternally(model.download)
                         }
                     }
                 }
