@@ -13,12 +13,12 @@ ApplicationWindow {
     Rectangle {
         id: background
         anchors.fill: parent
-        color: "white"
+        color: Styles.mainBG
     }
 
     Image {
         id: mainLogo
-        source: "qrc:/logo_imaginando.jpeg"
+        source: "qrc:/logo_imaginando.png"
         width: 200
         height: 45
         anchors.horizontalCenter: parent.horizontalCenter

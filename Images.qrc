@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>logo_imaginando.jpeg</file>
         <file>Styles.qml</file>
+        <file>logo_imaginando.png</file>
     </qresource>
 </RCC>
