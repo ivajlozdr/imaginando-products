@@ -1,7 +1,7 @@
 #pragma once
 
-#include <QObject>
 #include <QNetworkAccessManager>
+#include <QObject>
 #include <QVariant>
 
 class QNetworkReply;
@@ -12,9 +12,9 @@ public:
     explicit MyObject(QObject *parent = nullptr);
 
     Q_INVOKABLE void TestConnection();
-    Q_INVOKABLE QString getDownloadLinkForProduct(const QString& product);
+    Q_INVOKABLE static QString getDownloadLinkForProduct(const QString &product);
 signals:
-    void dataReady(QVariant data);
+    void dataReady(QVariantList data);
 
 private slots:
     void ReplyFinished(QNetworkReply *reply);

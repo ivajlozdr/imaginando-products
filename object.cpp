@@ -1,13 +1,15 @@
 #include "object.h"
-#include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QJsonDocument>
-#include <QJsonArray>
-#include <QJsonObject>
-#include <QJsonParseError>
-#include <QVariantMap>
 #include <QDebug>
 #include <QFile>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonParseError>
+#include <QList>
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QVariantMap>
+#include "product.h"
 
 MyObject::MyObject(QObject *parent) : QObject(parent) {
     manager = new QNetworkAccessManager(this);
@@ -23,7 +25,7 @@ void MyObject::TestConnection() {
 }
 
 QString MyObject::getDownloadLinkForProduct(const QString& product) {
-    const QString filePath = "../Downloads.json";
+    const QString filePath = "./Downloads.json";
 
     QFile file(filePath);
     QByteArray jsonData = file.readAll();
@@ -52,32 +54,21 @@ void MyObject::ReplyFinished(QNetworkReply *reply) {
         return;
     }
 
+    if (!jsonDoc.isArray()) {
+        qWarning() << "Expected JSON array";
+        reply->deleteLater();
+        return;
+    }
+
     QJsonArray jsonArray = jsonDoc.array();
-    QVariantList cleanData;
+    QVariantList products;
 
     for (const QJsonValue &val : jsonArray) {
         QJsonObject obj = val.toObject();
-        QVariantMap item;
-        item["id"] = obj["id"].toString();
-        item["name"] = obj["name"].toString();
-
-        QJsonObject meta = obj["meta"].toObject();
-        item["webpage"] = meta["webpage"].toString();
-        item["logo"] = meta["logo"].toString();
-        item["cover"] = meta["cover"].toString();
-        item["colorPrimary"] = meta["color_primary"].toString();
-        item["colorSecondary"] = meta["color_secondary"].toString();
-        for (const QVariant &variant : cleanData) {
-            QVariantMap product = variant.toMap();
-            QString productName = product["id"].toString();
-
-            QString downloadLink = getDownloadLinkForProduct(productName);
-            qDebug() << "Download link for" << productName << ":" << downloadLink;
-            item["download"] = downloadLink;
-        }
-        cleanData.append(item);
+        Product product = Product::fromJson(obj);
+        products.append(product.toVariantMap());
     }
 
-    emit dataReady(cleanData);
+    emit dataReady(products);
     reply->deleteLater();
 }

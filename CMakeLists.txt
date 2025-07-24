@@ -25,6 +25,7 @@ qt_add_qml_module(appuntitled
         SOURCES object.h main.cpp object.cpp
         RESOURCES Images.qrc
         QML_FILES Downloads.json
+        SOURCES product.h product.cpp
  
 )
 
