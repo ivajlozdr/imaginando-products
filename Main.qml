@@ -3,7 +3,6 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import App 1.0
 
-
 ApplicationWindow {
     visible: true
     width: 800
@@ -31,7 +30,7 @@ ApplicationWindow {
     }
 
     Connections {
-        target: controller
+        target: backend
 
         function onDataReady(data) {
             jsonModel.clear()
@@ -54,46 +53,60 @@ ApplicationWindow {
             clip: true
             boundsBehavior: Flickable.DragAndOvershootBounds
             snapMode: ListView.SnapToItem
-            delegate: Row {
+            delegate: Rectangle {
                 width: parent.width
-                spacing: 16
-                Column {
-                    height: 200
-                    width: 200
-                    Image {
-                        source: model.logo
+                height: contentItem.implicitHeight + 20
+                color: Qt.darker(
+                           model.color_primary,
+                           2.0)
+                radius: 4
+
+                Row {
+                    id: contentItem
+                    width: parent.width
+                    anchors.margins: 10
+                    spacing: 16
+
+                    Column {
+                        height: 200
                         width: 200
-                        height: 100
-                        fillMode: Image.PreserveAspectFit
+                        Image {
+                            source: model.logo
+                            width: 200
+                            height: 100
+                            fillMode: Image.PreserveAspectFit
+                        }
+                    }
+
+                    Column {
+                        width: parent.width - 350
+                        anchors.leftMargin: 200
+                        spacing: 4
+
+                        Text {
+                            text: model.name ?? "No name"
+                            font: Styles.titleFont
+                        }
+
+                        Text {
+                            text: model.webpage ?? "No link"
+                            font: Styles.subtitleFont
+                        }
+                    }
+
+                    Column {
+                        width: 150
+                        DownloadButton {
+                            text: "Download"
+                            onClicked: Qt.openUrlExternally(model.webpage)
+                        }
                     }
                 }
 
-                Column {
-                    width: parent.width - 350
-                    anchors.leftMargin: 200
-
-                    spacing: 4
-
-                    Text {
-                        text: model.name ?? "No name"
-                        font: Styles.titleFont
-                    }
-
-                    Text {
-                        text: model.webpage ?? "No link"
-                        font: Styles.subtitleFont
-                    }
-                }
-                Column {
-                    width: 150
-                    DownloadButton {
-                        text: "Download"
-                        onClicked: Qt.openUrlExternally(model.webpage)
-                    }
-                }
                 Rectangle {
                     height: 1
                     width: parent.width
+                    anchors.bottom: parent.bottom
                     color: "black"
                 }
             }
