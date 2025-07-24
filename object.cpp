@@ -64,6 +64,7 @@ void MyObject::ReplyFinished(QNetworkReply *reply) {
         QJsonObject meta = obj["meta"].toObject();
         item["webpage"] = meta["webpage"].toString();
         item["logo"] = meta["logo"].toString();
+        item["cover"] = meta["cover"].toString();
         item["colorPrimary"] = meta["color_primary"].toString();
         item["colorSecondary"] = meta["color_secondary"].toString();
         for (const QVariant &variant : cleanData) {
