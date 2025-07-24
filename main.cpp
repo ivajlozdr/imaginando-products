@@ -7,10 +7,10 @@ int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
-    MyObject myObject;
-    engine.rootContext()->setContextProperty("backend", &myObject);
+    Controller controller;
+    engine.rootContext()->setContextProperty("backend", &controller);
 
-    myObject.FetchProducts();
+    controller.FetchProducts();
 
     QObject::connect(
         &engine,

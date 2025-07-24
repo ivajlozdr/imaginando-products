@@ -11,13 +11,14 @@
 #include <QVariantMap>
 #include "product.h"
 
-MyObject::MyObject(QObject *parent) : QObject(parent) {
+Controller::Controller(QObject *parent)
+    : QObject(parent)
+{
     manager = new QNetworkAccessManager(this);
-    connect(manager, &QNetworkAccessManager::finished,
-            this, &MyObject::ReplyFinished);
+    connect(manager, &QNetworkAccessManager::finished, this, &Controller::ReplyFinished);
 }
 
-void MyObject::FetchProducts()
+void Controller::FetchProducts()
 {
     QNetworkRequest request(QUrl("https://api.imaginando.pt/products"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -25,7 +26,8 @@ void MyObject::FetchProducts()
     manager->get(request);
 }
 
-QString MyObject::getDownloadLinkForProduct(const QString& product) {
+QString Controller::getDownloadLinkForProduct(const QString &product)
+{
     const QString filePath = "./Downloads.json";
 
     QFile file(filePath);
@@ -44,7 +46,8 @@ QString MyObject::getDownloadLinkForProduct(const QString& product) {
     return downloadUrl;
 }
 
-void MyObject::ReplyFinished(QNetworkReply *reply) {
+void Controller::ReplyFinished(QNetworkReply *reply)
+{
     QByteArray responseData = reply->readAll();
     QJsonParseError parseError;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(responseData, &parseError);

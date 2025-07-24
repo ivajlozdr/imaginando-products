@@ -6,10 +6,11 @@
 
 class QNetworkReply;
 
-class MyObject : public QObject {
+class Controller : public QObject
+{
     Q_OBJECT
 public:
-    explicit MyObject(QObject *parent = nullptr);
+    explicit Controller(QObject *parent = nullptr);
 
     Q_INVOKABLE void FetchProducts();
     Q_INVOKABLE static QString getDownloadLinkForProduct(const QString &product);
