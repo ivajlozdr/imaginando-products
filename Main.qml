@@ -59,7 +59,7 @@ ApplicationWindow {
                     height: 200
                     width: 200
                     Image {
-                        source: model.cover
+                        source: model.logo
                         width: 200
                         height: 100
                         fillMode: Image.PreserveAspectFit

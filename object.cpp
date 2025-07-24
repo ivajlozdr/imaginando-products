@@ -46,11 +46,11 @@ void MyObject::ReplyFinished(QNetworkReply *reply) {
     QJsonParseError parseError;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(responseData, &parseError);
 
-    // if (parseError.error != QJsonParseError::NoError) {
-    //     qWarning() << "JSON parse error:" << parseError.errorString();
-    //     reply->deleteLater();
-    //     return;
-    // }
+    if (parseError.error != QJsonParseError::NoError) {
+        qWarning() << "JSON parse error:" << parseError.errorString();
+        reply->deleteLater();
+        return;
+    }
 
     QJsonArray jsonArray = jsonDoc.array();
     QVariantList cleanData;
@@ -66,14 +66,14 @@ void MyObject::ReplyFinished(QNetworkReply *reply) {
         item["logo"] = meta["logo"].toString();
         item["colorPrimary"] = meta["color_primary"].toString();
         item["colorSecondary"] = meta["color_secondary"].toString();
-        // for (const QVariant &variant : cleanData) {
-        //     QVariantMap product = variant.toMap();
-        //     QString productName = product["id"].toString();
+        for (const QVariant &variant : cleanData) {
+            QVariantMap product = variant.toMap();
+            QString productName = product["id"].toString();
 
-        //     QString downloadLink = getDownloadLinkForProduct(productName);
-        //     qDebug() << "Download link for" << productName << ":" << downloadLink;
-        //     item["download"] = downloadLink;
-        // }
+            QString downloadLink = getDownloadLinkForProduct(productName);
+            qDebug() << "Download link for" << productName << ":" << downloadLink;
+            item["download"] = downloadLink;
+        }
         cleanData.append(item);
     }
 
