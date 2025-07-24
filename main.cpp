@@ -10,7 +10,7 @@ int main(int argc, char *argv[]) {
     MyObject myObject;
     engine.rootContext()->setContextProperty("backend", &myObject);
 
-    myObject.TestConnection();
+    myObject.FetchProducts();
 
     QObject::connect(
         &engine,

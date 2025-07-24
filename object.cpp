@@ -17,7 +17,8 @@ MyObject::MyObject(QObject *parent) : QObject(parent) {
             this, &MyObject::ReplyFinished);
 }
 
-void MyObject::TestConnection() {
+void MyObject::FetchProducts()
+{
     QNetworkRequest request(QUrl("https://api.imaginando.pt/products"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Accept", "application/json");

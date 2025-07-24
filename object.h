@@ -11,7 +11,7 @@ class MyObject : public QObject {
 public:
     explicit MyObject(QObject *parent = nullptr);
 
-    Q_INVOKABLE void TestConnection();
+    Q_INVOKABLE void FetchProducts();
     Q_INVOKABLE static QString getDownloadLinkForProduct(const QString &product);
 signals:
     void dataReady(QVariantList data);
