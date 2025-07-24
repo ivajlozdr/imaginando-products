@@ -1,6 +1,8 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import App 1.0
+
 
 ApplicationWindow {
     visible: true
@@ -74,41 +76,19 @@ ApplicationWindow {
 
                     Text {
                         text: model.name ?? "No name"
-                        font.family: "Poppins"
-                        font.bold: true
-                        font.pointSize: 20
+                        font: Styles.titleFont
                     }
 
                     Text {
                         text: model.webpage ?? "No link"
-                        font.family: "Poppins"
-                        color: "gray"
-                        font.italic: true
+                        font: Styles.subtitleFont
                     }
                 }
                 Column {
                     width: 150
-                    Button {
+                    DownloadButton {
                         text: "Download"
-                        font.family: "Poppins"
-                        font.pointSize: 15
-
-                        background: Rectangle {
-                            radius: height / 2
-                            color: "#0078D7"
-                        }
-
-                        contentItem: Text {
-                            text: qsTr("Download")
-                            anchors.centerIn: parent
-                            font.family: "Poppins"
-                            font.pointSize: 15
-                            color: "white"
-                        }
-
-                        onClicked: {
-                            Qt.openUrlExternally(model.webpage)
-                        }
+                        onClicked: Qt.openUrlExternally(model.webpage)
                     }
                 }
                 Rectangle {
