@@ -29,24 +29,13 @@ ApplicationWindow {
         id: jsonModel
     }
 
-    Connections {
-        target: controller
-
-        function onDataReady(data) {
-            jsonModel.clear()
-            for (var i = 0; i < data.length; ++i) {
-                jsonModel.append(data[i])
-            }
-        }
-    }
-
     ScrollView {
         anchors.fill: parent
         anchors.topMargin: 80
 
         ListView {
             anchors.fill: parent
-            model: jsonModel
+            model: controller.model
             clip: true
             boundsBehavior: Flickable.DragAndOvershootBounds
             snapMode: ListView.SnapToItem
@@ -104,6 +93,7 @@ ApplicationWindow {
                         Text {
                             text: model.name ?? "No name"
                             font: Styles.titleFont
+                            color: "white"
                         }
 
                         Text {
