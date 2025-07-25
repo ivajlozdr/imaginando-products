@@ -1,13 +1,33 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import App 1.0
+import QtQuick.Effects
 
 ApplicationWindow {
+    id: root
     visible: true
     width: 800
     height: 600
+    minimumWidth: 400
+    minimumHeight: 300
     title: "Product Viewer"
+
+    readonly property int breakpointSmall: 600
+    readonly property int breakpointMedium: 900
+    readonly property int breakpointLarge: 1200
+
+    readonly property string currentBreakpoint: {
+        if (width < breakpointSmall) return "small"
+        else if (width < breakpointMedium) return "medium"
+        else if (width < breakpointLarge) return "large"
+        else return "xlarge"
+    }
+
+    readonly property int cardMargin: currentBreakpoint === "small" ? 16 : 20
+    readonly property int cardSpacing: currentBreakpoint === "small" ? 16 : 24
+    readonly property int cardRadius: 12
+    readonly property int logoWidth: Math.min(200, width * 0.25)
+    readonly property int logoHeight: logoWidth * 0.225
 
     Rectangle {
         id: background
@@ -15,103 +35,78 @@ ApplicationWindow {
         color: Styles.mainBG
     }
 
-    Image {
-        id: mainLogo
-        source: "qrc:/logo_imaginando.png"
-        width: 200
-        height: 45
-        anchors.horizontalCenter: parent.horizontalCenter
+    Rectangle {
+        id: header
         anchors.top: parent.top
-        anchors.topMargin: 20
-    }
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: logoHeight + (cardMargin * 2)
+        color: "transparent"
 
-    ListModel {
-        id: jsonModel
+        Image {
+            id: mainLogo
+            source: "qrc:/logo_imaginando.png"
+            width: logoWidth
+            height: logoHeight
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.verticalCenter: parent.verticalCenter
+            fillMode: Image.PreserveAspectFit
+
+            cache: true
+            asynchronous: true
+
+            onStatusChanged: {
+                if (status === Image.Error) {
+                    console.warn("Failed to load logo image")
+                }
+            }
+        }
     }
 
     ScrollView {
-        anchors.fill: parent
-        anchors.topMargin: 80
+        id: scrollView
+        anchors.top: header.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.margins: 0
+
+        ScrollBar.vertical.policy: ScrollBar.AsNeeded
+        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+
+        clip: true
 
         ListView {
+            id: listView
             anchors.fill: parent
+            anchors.leftMargin: cardMargin
+            anchors.rightMargin: cardMargin
+
             model: controller.model
+            spacing: cardSpacing
             clip: true
-            boundsBehavior: Flickable.DragAndOvershootBounds
-            snapMode: ListView.SnapToItem
 
-            delegate: Rectangle {
-                width: parent.width
-                height: 220
-                radius: 4
-                border.color: "#00000000"
-                gradient: Gradient {
-                    GradientStop { position: 0.0; color: Qt.darker(colorPrimary, 5.0) }
-                    GradientStop { position: 0.1; color: Qt.darker(colorPrimary, 6.0) }
-                    GradientStop { position: 0.4; color: Qt.darker(colorPrimary, 8.0) }
-                    GradientStop { position: 1.0; color: "#000000" }
-                }
+            cacheBuffer: height * 2
+            reuseItems: true
 
-                Row {
-                    width: parent.width
-                    spacing: 10
-                    anchors.margins: 20
+            topMargin: cardSpacing
+            bottomMargin: cardSpacing
 
-                    Rectangle {
-                        width: 20
-                        height: 1
-                        color: "transparent"
-                    }
+            delegate: ProductCard {
+                width: listView.width
+                cardMargin: root.cardMargin
+                cardRadius: root.cardRadius
+                currentBreakpoint: root.currentBreakpoint
 
-                    Column {
-                        spacing: 4
-                        Image {
-                            source: logo
-                            width: 180
-                            height: 180
-                            fillMode: Image.PreserveAspectFit
-                        }
-                    }
-
-                    Column {
-                        width: parent.width - 400
-                        spacing: 4
-
-                        Text {
-                            text: name || "No name"
-                            font: Styles.titleFont
-                            color: "white"
-                        }
-
-                        Text {
-                            text: webpage || "No link"
-                            font: Styles.subtitleFont
-                            color: "lightgray"
-                        }
-                    }
-
-                    Item {
-                        width: 100
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.right: parent.right
-                        anchors.rightMargin: 5
-
-                        DownloadButton {
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.right: parent.right
-                            onClicked: Qt.openUrlExternally(download)
-                            font: Styles.buttonTxt
-                        }
-                    }
-                }
-
-                Rectangle {
-                    height: 1
-                    width: parent.width
-                    anchors.bottom: parent.bottom
-                    color: "black"
-                }
+                productName: model.name || "No name"
+                productWebpage: model.webpage || "No link"
+                productLogo: model.logo || ""
+                productDownload: model.download || ""
+                productColorPrimary: model.colorPrimary || "#333333"
             }
+
+            flickDeceleration: 1500
+            maximumFlickVelocity: 2500
         }
     }
 }

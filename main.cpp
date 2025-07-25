@@ -22,8 +22,7 @@ int main(int argc, char *argv[]) {
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
 
-    qmlRegisterSingletonType(QUrl("qrc:/Styles.qml"), "App", 1, 0, "Styles");
-
+    qmlRegisterSingletonType(QUrl("qrc:/Styles.qml"), "untitled", 1, 0, "Styles");
     engine.loadFromModule("untitled", "Main");
 
     return app.exec();

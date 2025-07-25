@@ -22,6 +22,7 @@ qt_add_qml_module(appuntitled
         Main.qml
         Styles.qml
         DownloadButton.qml
+        ProductCard.qml
     SOURCES
         controller.cpp
         controller.h
