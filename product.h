@@ -33,8 +33,6 @@ public:
 
     static Product *fromJson(const QJsonObject &obj);
 
-    QVariantMap toVariantMap() const;
-
 signals:
     void idChanged();
     void nameChanged();

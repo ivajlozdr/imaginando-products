@@ -23,7 +23,6 @@ public:
     QString description() const;
 
     static Modules *fromJson(const QJsonObject &obj, QObject *parent = nullptr);
-    QVariantMap toVariantMap() const;
 
 signals:
     void idChanged();

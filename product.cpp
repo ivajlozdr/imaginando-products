@@ -75,27 +75,3 @@ Product *Product::fromJson(const QJsonObject &obj)
 
     return out;
 }
-
-QVariantMap Product::toVariantMap() const
-{
-    QVariantMap map;
-
-    map["id"] = m_id;
-    map["name"] = m_name;
-    map["webpage"] = m_webpage;
-    map["logo"] = m_logo;
-    map["cover"] = m_cover;
-    map["colorPrimary"] = m_colorPrimary;
-    map["colorSecondary"] = m_colorSecondary;
-    map["download"] = m_download;
-
-    QVariantList modulesList;
-    for (Modules *mod : m_modules) {
-        if (mod)
-            modulesList.append(mod->toVariantMap());
-    }
-
-    map["modules"] = modulesList;
-
-    return map;
-}

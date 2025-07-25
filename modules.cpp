@@ -47,14 +47,3 @@ Modules *Modules::fromJson(const QJsonObject &obj, QObject *parent)
 
     return out;
 }
-
-QVariantMap Modules::toVariantMap() const
-{
-    QVariantMap map;
-    map["id"] = m_id;
-    map["name"] = m_name;
-    map["logo"] = m_logo;
-    map["purchase"] = m_purchase;
-    map["description"] = m_description;
-    return map;
-}
