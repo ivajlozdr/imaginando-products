@@ -17,7 +17,10 @@ class Controller : public QObject
 public:
     explicit Controller(QObject *parent = nullptr);
 
-    QQmlListProperty<Product> model() { return QQmlListProperty<Product>(this, &m_model); }
+    QQmlListProperty<Product> model();
+
+    static qsizetype modelCount(QQmlListProperty<Product> *list);
+    static Product *modelAt(QQmlListProperty<Product> *list, qsizetype index);
 
     Q_INVOKABLE void FetchProducts();
     Q_INVOKABLE static QString getDownloadLinkForProduct(const QString &product);

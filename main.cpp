@@ -7,6 +7,9 @@ int main(int argc, char *argv[]) {
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
+    qmlRegisterType<Product>("untitled", 1, 0, "Product");
+    qmlRegisterType<Modules>("untitled", 1, 0, "Modules");
+
     Controller controller;
     engine.rootContext()->setContextProperty("controller", &controller);
 

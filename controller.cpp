@@ -26,6 +26,24 @@ Controller::Controller(QObject *parent)
     emit modelChanged();
 }
 
+QQmlListProperty<Product> Controller::model()
+{
+    return QQmlListProperty<Product>(this, this, &Controller::modelCount, &Controller::modelAt);
+}
+
+qsizetype Controller::modelCount(QQmlListProperty<Product> *list)
+{
+    auto *controller = qobject_cast<Controller *>(list->object);
+    return controller ? controller->m_model.size() : 0;
+}
+
+Product *Controller::modelAt(QQmlListProperty<Product> *list, qsizetype index)
+{
+    auto *controller = qobject_cast<Controller *>(list->object);
+    return controller && index < controller->m_model.count() ? controller->m_model.at(index)
+                                                             : nullptr;
+}
+
 void Controller::FetchProducts()
 {
     QNetworkRequest request(QUrl("https://api.imaginando.pt/products"));
@@ -80,14 +98,12 @@ void Controller::ReplyFinished(QNetworkReply *reply)
     }
 
     QJsonArray jsonArray = jsonDoc.array();
-    QVariantList products;
 
     for (const QJsonValue &val : jsonArray) {
         QJsonObject obj = val.toObject();
-        Product product = Product::fromJson(obj);
-        products.append(product.toVariantMap());
+        Product *product = Product::fromJson(obj);
+        m_model.append(product);
+        emit modelChanged();
     }
-
-    emit dataReady(products);
     reply->deleteLater();
 }

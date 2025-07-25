@@ -39,46 +39,34 @@ ApplicationWindow {
             clip: true
             boundsBehavior: Flickable.DragAndOvershootBounds
             snapMode: ListView.SnapToItem
+
             delegate: Rectangle {
                 width: parent.width
-                height: contentItem.implicitHeight + 20
+                height: 220
                 radius: 4
                 border.color: "#00000000"
                 gradient: Gradient {
-                    GradientStop {
-                        position: 0.0
-                        color: Qt.darker(model.colorPrimary, 5.0)
-                    }
-                    GradientStop {
-                        position: 0.1
-                        color: Qt.darker(model.colorPrimary, 6.0)
-                    }
-                    GradientStop {
-                        position: 0.4
-                        color: Qt.darker(model.colorPrimary, 8.0)
-                    }
-                    GradientStop {
-                        position: 1.0
-                        color: "#000000"
-                    }
+                    GradientStop { position: 0.0; color: Qt.darker(colorPrimary, 5.0) }
+                    GradientStop { position: 0.1; color: Qt.darker(colorPrimary, 6.0) }
+                    GradientStop { position: 0.4; color: Qt.darker(colorPrimary, 8.0) }
+                    GradientStop { position: 1.0; color: "#000000" }
                 }
 
                 Row {
-                    id: contentItem
                     width: parent.width
-                    anchors.margins: 20
                     spacing: 10
+                    anchors.margins: 20
 
-                    Rectangle { // Left spacer
+                    Rectangle {
                         width: 20
                         height: 1
                         color: "transparent"
                     }
 
                     Column {
-                        anchors.leftMargin: 10
+                        spacing: 4
                         Image {
-                            source: model.logo
+                            source: logo
                             width: 180
                             height: 180
                             fillMode: Image.PreserveAspectFit
@@ -87,18 +75,18 @@ ApplicationWindow {
 
                     Column {
                         width: parent.width - 400
-                        anchors.leftMargin: 220
                         spacing: 4
 
                         Text {
-                            text: model.name ?? "No name"
+                            text: name || "No name"
                             font: Styles.titleFont
                             color: "white"
                         }
 
                         Text {
-                            text: model.webpage ?? "No link"
+                            text: webpage || "No link"
                             font: Styles.subtitleFont
+                            color: "lightgray"
                         }
                     }
 
@@ -111,7 +99,7 @@ ApplicationWindow {
                         DownloadButton {
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.right: parent.right
-                            onClicked: Qt.openUrlExternally(model.download)
+                            onClicked: Qt.openUrlExternally(download)
                             font: Styles.buttonTxt
                         }
                     }
