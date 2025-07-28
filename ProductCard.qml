@@ -7,51 +7,70 @@ Item {
     id: cardRoot
 
     property int cardMargin: 20
-    property int cardRadius: 12
+    property int cardRadius: 16
     property string currentBreakpoint: "medium"
-
     property var productModules
     property string productName: ""
     property string productWebpage: ""
     property string productLogo: ""
     property string productDownload: ""
     property color productColorPrimary: "#333333"
-
     property bool modulesExpanded: false
-
     property int baseHeight: currentBreakpoint === "small" ? 180 : 220
+
     readonly property int imageSize: currentBreakpoint === "small" ? 80 : 120
-    readonly property int contentSpacing: currentBreakpoint === "small" ? 12 : 16
-    readonly property int textSpacing: currentBreakpoint === "small" ? 4 : 8
+    readonly property int contentSpacing: currentBreakpoint === "small" ? 16 : 20
+    readonly property int textSpacing: currentBreakpoint === "small" ? 6 : 8
 
     width: parent.width
-    height: baseHeight + (modulesExpanded ? modulesSection.implicitHeight : 0)
+    height: baseHeight + (modulesExpanded ? modulesSection.implicitHeight + 20 : 0)
+
+    Rectangle {
+        id: cardShadow
+        width: cardBackground.width
+        height: cardBackground.height
+        radius: cardBackground.radius
+        anchors.centerIn: cardBackground
+        anchors.verticalCenterOffset: 2
+        color: "#00000040"
+        z: -1
+    }
+
     Rectangle {
         id: cardBackground
         width: parent.width
         height: baseHeight
         radius: cardRadius
         anchors.horizontalCenter: parent.horizontalCenter
-        // anchors.verticalCenter: parent.verticalCenter
         anchors.top: parent.top
 
         gradient: Gradient {
             orientation: Gradient.Horizontal
             GradientStop {
                 position: 0.0
-                color: Qt.darker(productColorPrimary, 3.0)
+                color: Qt.lighter(productColorPrimary, 0.8)
             }
             GradientStop {
                 position: 0.4
-                color: Qt.darker(productColorPrimary, 5.0)
+                color: Qt.darker(productColorPrimary, 2.0)
+            }
+            GradientStop {
+                position: 0.6
+                color: Qt.darker(productColorPrimary, 4.0)
+            }
+            GradientStop {
+                position: 0.75
+                color: Qt.darker(productColorPrimary, 10)
             }
             GradientStop {
                 position: 1.0
-                color: "#000000"
+                color: "#0a0a0a"
             }
         }
 
-        layer.enabled: true
+        border.color: "#333333"
+        border.width: 1
+
         Behavior on scale {
             NumberAnimation {
                 duration: 200
@@ -70,34 +89,40 @@ Item {
                 Layout.alignment: Qt.AlignVCenter
 
                 Rectangle {
-                    id: imagePlaceholder
+                    id: imageContainer
                     anchors.fill: parent
-                    radius: 8
-                    color: "#ffffff20"
-                    border.color: "#ffffff40"
-                    border.width: 1
-                    visible: productImage.status !== Image.Ready
+                    radius: 12
+                    color: "#333333"
 
-                    Text {
-                        anchors.centerIn: parent
-                        text: "No Image"
-                        color: "#ffffff60"
-                        font.pixelSize: 12
+                    Rectangle {
+                        id: imagePlaceholder
+                        anchors.fill: parent
+                        radius: parent.radius
+                        color: "#333333"
+                        visible: productImage.status !== Image.Ready
+
+                        Text {
+                            anchors.centerIn: parent
+                            text: "📦"
+                            color: "#333333"
+                            font.pixelSize: imageSize * 0.3
+                        }
                     }
-                }
 
-                Image {
-                    id: productImage
-                    anchors.fill: parent
-                    source: productLogo
-                    fillMode: Image.PreserveAspectFit
-                    cache: true
-                    smooth: true
-                    mipmap: true
+                    Image {
+                        id: productImage
+                        anchors.fill: parent
+                        anchors.margins: 8
+                        source: productLogo
+                        fillMode: Image.PreserveAspectFit
+                        cache: true
+                        smooth: true
+                        mipmap: true
 
-                    onStatusChanged: {
-                        if (status === Image.Error) {
-                            console.warn("Failed to load product image:", productLogo)
+                        onStatusChanged: {
+                            if (status === Image.Error) {
+                                console.warn("Failed to load product image:", productLogo)
+                            }
                         }
                     }
                 }
@@ -105,13 +130,15 @@ Item {
 
             ColumnLayout {
                 Layout.fillWidth: true
+                Layout.fillHeight: true
                 Layout.alignment: Qt.AlignVCenter
                 spacing: textSpacing
 
                 Text {
                     id: nameText
                     text: productName
-                    font: Styles.titleFont
+                    font.pixelSize: currentBreakpoint === "small" ? 18 : 22
+                    font.weight: Font.Bold
                     color: "white"
                     wrapMode: Text.WordWrap
                     maximumLineCount: 2
@@ -122,30 +149,69 @@ Item {
                 Text {
                     id: webpageText
                     text: productWebpage
-                    font: Styles.subtitleFont
-                    color: "#cccccc"
+                    font.pixelSize: currentBreakpoint === "small" ? 12 : 14
+                    font.weight: Font.Normal
+                    color: "#e0e0e0"
                     wrapMode: Text.WrapAnywhere
                     maximumLineCount: currentBreakpoint === "small" ? 1 : 2
                     elide: Text.ElideRight
                     Layout.fillWidth: true
+                    opacity: 0.9
                 }
             }
+
             Item {
-                Layout.preferredWidth: currentBreakpoint === "small" ? 170 : 200
+                Layout.preferredWidth: currentBreakpoint === "small" ? 140 : 160
+                Layout.fillHeight: true
                 Layout.alignment: Qt.AlignVCenter
 
                 ColumnLayout {
-                    anchors.fill: parent
-                    anchors.margins: 0
-                    spacing: 8
+                    anchors.centerIn: parent
+                    spacing: 12
 
-                    DownloadButton {
+                    Button {
                         id: downloadBtn
                         text: "Download"
-                        font: Styles.buttonTxt
-                        Layout.preferredWidth: currentBreakpoint === "small" ? 70 : 90
-                        Layout.preferredHeight: currentBreakpoint === "small" ? 32 : 36
+                        Layout.preferredWidth: currentBreakpoint === "small" ? 120 : 140
+                        Layout.preferredHeight: currentBreakpoint === "small" ? 36 : 40
                         Layout.alignment: Qt.AlignHCenter
+
+                        background: Rectangle {
+                            radius: 8
+                            gradient: Gradient {
+                                GradientStop { position: 0.0; color: "#4CAF50" }
+                                GradientStop { position: 1.0; color: "#45a049" }
+                            }
+                            border.color: downloadBtn.pressed ? "#3d8b40" : "#4CAF50"
+                            border.width: 1
+
+                            Rectangle {
+                                anchors.fill: parent
+                                anchors.topMargin: 1
+                                radius: parent.radius - 1
+                                color: "transparent"
+                                border.color: "#333333"
+                                border.width: 1
+                            }
+                        }
+
+                        contentItem: Text {
+                            text: downloadBtn.text
+                            font.pixelSize: currentBreakpoint === "small" ? 13 : 14
+                            font.weight: Font.Medium
+                            color: "white"
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
+
+                        scale: pressed ? 0.95 : (hovered ? 1.05 : 1.0)
+
+                        Behavior on scale {
+                            NumberAnimation {
+                                duration: 150
+                                easing.type: Easing.OutCubic
+                            }
+                        }
 
                         onClicked: {
                             if (productDownload.length > 0) {
@@ -156,49 +222,70 @@ Item {
 
                     Button {
                         id: toggleModulesBtn
-                        text: modulesExpanded ? "Hide Extension Packs" : "Show Extension Packs"
-                        font: Styles.buttonTxt
-                        Layout.preferredWidth: currentBreakpoint === "small" ? 70 : 90
-                        Layout.preferredHeight: currentBreakpoint === "small" ? 32 : 36
+                        text: modulesExpanded ? "Hide Packs" : "Show Packs"
+                        Layout.preferredWidth: currentBreakpoint === "small" ? 120 : 140
+                        Layout.preferredHeight: currentBreakpoint === "small" ? 36 : 40
                         Layout.alignment: Qt.AlignHCenter
 
-                        onClicked: {
-                            modulesExpanded = !modulesExpanded
-                        }
-
                         background: Rectangle {
-                            implicitWidth: 90
-                            implicitHeight: 36
-                            radius: 6
-                            color: modulesExpanded ? "#cc3333" : "#33cc66"
+                            radius: 8
+                            gradient: Gradient {
+                                GradientStop {
+                                    position: 0.0
+                                    color: modulesExpanded ? "#f44336" : "#2196F3"
+                                }
+                                GradientStop {
+                                    position: 1.0
+                                    color: modulesExpanded ? "#d32f2f" : "#1976D2"
+                                }
+                            }
+                            border.color: modulesExpanded ? "#d32f2f" : "#1976D2"
+                            border.width: 1
 
-                            Behavior on color {
+                            Behavior on gradient {
                                 ColorAnimation {
-                                    duration: 150
+                                    duration: 200
                                     easing.type: Easing.OutCubic
                                 }
                             }
 
                             Rectangle {
                                 anchors.fill: parent
-                                radius: parent.radius
+                                anchors.topMargin: 1
+                                radius: parent.radius - 1
                                 color: "transparent"
+                                border.color: "#333333"
+                                border.width: 1
                             }
                         }
 
-                        scale: pressed ? 0.95 : 1.0
+                        contentItem: Text {
+                            text: toggleModulesBtn.text
+                            font.pixelSize: currentBreakpoint === "small" ? 13 : 14
+                            font.weight: Font.Medium
+                            color: "white"
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
+
+                        scale: pressed ? 0.95 : (hovered ? 1.05 : 1.0)
+
                         Behavior on scale {
                             NumberAnimation {
-                                duration: 100
+                                duration: 150
                                 easing.type: Easing.OutCubic
                             }
                         }
+
+                        onClicked: {
+                            modulesExpanded = !modulesExpanded
+                        }
                     }
                 }
-
             }
         }
     }
+
     ColumnLayout {
         id: modulesSection
         anchors.top: cardBackground.bottom
@@ -210,13 +297,14 @@ Item {
         anchors.margins: cardMargin
 
         Behavior on opacity {
-            NumberAnimation { duration: 200; easing.type: Easing.OutCubic }
+                   NumberAnimation { duration: 200; easing.type: Easing.OutCubic }
         }
 
         Repeater {
             model: productModules
             ModuleCard {
                 module: modelData
+
             }
         }
     }

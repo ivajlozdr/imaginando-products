@@ -23,8 +23,8 @@ ApplicationWindow {
         else return "xlarge"
     }
 
-    readonly property int cardMargin: currentBreakpoint === "small" ? 16 : 20
-    readonly property int cardSpacing: currentBreakpoint === "small" ? 16 : 24
+    readonly property int cardMargin: currentBreakpoint === "small" ? 5 : 8
+    readonly property int cardSpacing: currentBreakpoint === "small" ? 5 : 8
     readonly property int cardRadius: 12
     readonly property int logoWidth: Math.min(200, width * 0.25)
     readonly property int logoHeight: logoWidth * 0.225
