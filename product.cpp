@@ -46,7 +46,15 @@ QString Product::colorSecondary() const
 
 QQmlListProperty<Modules> Product::modules()
 {
-    return QQmlListProperty<Modules>(this, &m_modules);
+    return QQmlListProperty<Modules>(
+        this,
+        this,
+        [](QQmlListProperty<Modules> *list) -> qsizetype {
+            return static_cast<Product *>(list->data)->m_modules.size();
+        },
+        [](QQmlListProperty<Modules> *list, qsizetype index) -> Modules * {
+            return static_cast<Product *>(list->data)->m_modules.at(index);
+        });
 }
 
 Product *Product::fromJson(const QJsonObject &obj)
@@ -64,7 +72,7 @@ Product *Product::fromJson(const QJsonObject &obj)
     out->m_colorSecondary = meta.value("color_secondary").toString();
     out->m_download = Controller::getDownloadLinkForProduct(out->m_name);
 
-    const QJsonArray modulesArray = meta.value("modules").toArray();
+    const QJsonArray modulesArray = obj.value("modules").toArray();
     for (const QJsonValue &val : modulesArray) {
         if (val.isObject()) {
             Modules *mod = Modules::fromJson(val.toObject());

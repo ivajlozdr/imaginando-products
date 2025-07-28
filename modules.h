@@ -12,7 +12,7 @@ class Modules : public QObject
     Q_PROPERTY(QString purchase READ purchase NOTIFY purchaseChanged FINAL)
     Q_PROPERTY(QString logo READ logo NOTIFY logoChanged FINAL)
     Q_PROPERTY(QString description READ description NOTIFY descriptionChanged FINAL)
-
+    Q_PROPERTY(int priceCurrent READ priceCurrent NOTIFY priceCurrentChanged FINAL)
 public:
     explicit Modules(QObject *parent = nullptr);
 
@@ -21,7 +21,7 @@ public:
     QString purchase() const;
     QString logo() const;
     QString description() const;
-
+    int priceCurrent() const;
     static Modules *fromJson(const QJsonObject &obj, QObject *parent = nullptr);
 
 signals:
@@ -30,6 +30,7 @@ signals:
     void purchaseChanged();
     void logoChanged();
     void descriptionChanged();
+    void priceCurrentChanged();
 
 private:
     QString m_id;
@@ -37,6 +38,7 @@ private:
     QString m_purchase;
     QString m_logo;
     QString m_description;
+    int m_priceCurrent;
 };
 
 Q_DECLARE_METATYPE(Modules *)

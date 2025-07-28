@@ -6,36 +6,35 @@ import QtQuick.Effects
 Item {
     id: cardRoot
 
-    // Properties
     property int cardMargin: 20
     property int cardRadius: 12
     property string currentBreakpoint: "medium"
 
-    // Model data properties
+    property var productModules
     property string productName: ""
     property string productWebpage: ""
     property string productLogo: ""
     property string productDownload: ""
     property color productColorPrimary: "#333333"
 
-    // Responsive dimensions
-    readonly property int cardHeight: currentBreakpoint === "small" ? 180 : 220
+    property bool modulesExpanded: false
+
+    property int baseHeight: currentBreakpoint === "small" ? 180 : 220
     readonly property int imageSize: currentBreakpoint === "small" ? 80 : 120
     readonly property int contentSpacing: currentBreakpoint === "small" ? 12 : 16
     readonly property int textSpacing: currentBreakpoint === "small" ? 4 : 8
 
     width: parent.width
-    height: cardHeight + 20 // Extra space for shadow
-
+    height: baseHeight + (modulesExpanded ? modulesSection.implicitHeight : 0)
     Rectangle {
         id: cardBackground
         width: parent.width
-        height: cardHeight
+        height: baseHeight
         radius: cardRadius
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
+        // anchors.verticalCenter: parent.verticalCenter
+        anchors.top: parent.top
 
-        // Enhanced gradient
         gradient: Gradient {
             orientation: Gradient.Horizontal
             GradientStop {
@@ -52,9 +51,7 @@ Item {
             }
         }
 
-        // Subtle shadow effect
         layer.enabled: true
-        scale: cardMouseArea.containsMouse ? 1.02 : 1.0
         Behavior on scale {
             NumberAnimation {
                 duration: 200
@@ -67,7 +64,6 @@ Item {
             anchors.margins: contentSpacing
             spacing: contentSpacing
 
-            // Product image with error handling
             Item {
                 Layout.preferredWidth: imageSize
                 Layout.preferredHeight: imageSize
@@ -93,14 +89,9 @@ Item {
                 Image {
                     id: productImage
                     anchors.fill: parent
-                    source: logo
+                    source: productLogo
                     fillMode: Image.PreserveAspectFit
-
-                    // Critical: Prevent image disappearing
                     cache: true
-                    asynchronous: true
-
-                    // Smooth scaling
                     smooth: true
                     mipmap: true
 
@@ -109,20 +100,9 @@ Item {
                             console.warn("Failed to load product image:", productLogo)
                         }
                     }
-
-                    // Ensure image stays loaded
-                    Component.onCompleted: {
-                        if (source.toString().length > 0) {
-                            // Force reload if needed
-                            var temp = source
-                            source = ""
-                            source = temp
-                        }
-                    }
                 }
             }
 
-            // Content area
             ColumnLayout {
                 Layout.fillWidth: true
                 Layout.alignment: Qt.AlignVCenter
@@ -150,51 +130,93 @@ Item {
                     Layout.fillWidth: true
                 }
             }
-
-            // Download button area
             Item {
-                Layout.preferredWidth: currentBreakpoint === "small" ? 80 : 100
+                Layout.preferredWidth: currentBreakpoint === "small" ? 170 : 200
                 Layout.alignment: Qt.AlignVCenter
 
-                DownloadButton {
-                    id: downloadBtn
-                    anchors.centerIn: parent
-                    font: Styles.buttonTxt
+                ColumnLayout {
+                    anchors.fill: parent
+                    anchors.margins: 0
+                    spacing: 8
 
-                    // Responsive sizing
-                    width: currentBreakpoint === "small" ? 70 : 90
-                    height: currentBreakpoint === "small" ? 32 : 36
+                    DownloadButton {
+                        id: downloadBtn
+                        text: "Download"
+                        font: Styles.buttonTxt
+                        Layout.preferredWidth: currentBreakpoint === "small" ? 70 : 90
+                        Layout.preferredHeight: currentBreakpoint === "small" ? 32 : 36
+                        Layout.alignment: Qt.AlignHCenter
 
-                    onClicked: {
-                        if (productDownload.length > 0) {
-                            Qt.openUrlExternally(productDownload)
+                        onClicked: {
+                            if (productDownload.length > 0) {
+                                Qt.openUrlExternally(productDownload)
+                            }
+                        }
+                    }
+
+                    Button {
+                        id: toggleModulesBtn
+                        text: modulesExpanded ? "Hide Extension Packs" : "Show Extension Packs"
+                        font: Styles.buttonTxt
+                        Layout.preferredWidth: currentBreakpoint === "small" ? 70 : 90
+                        Layout.preferredHeight: currentBreakpoint === "small" ? 32 : 36
+                        Layout.alignment: Qt.AlignHCenter
+
+                        onClicked: {
+                            modulesExpanded = !modulesExpanded
+                        }
+
+                        background: Rectangle {
+                            implicitWidth: 90
+                            implicitHeight: 36
+                            radius: 6
+                            color: modulesExpanded ? "#cc3333" : "#33cc66"
+
+                            Behavior on color {
+                                ColorAnimation {
+                                    duration: 150
+                                    easing.type: Easing.OutCubic
+                                }
+                            }
+
+                            Rectangle {
+                                anchors.fill: parent
+                                radius: parent.radius
+                                color: "transparent"
+                            }
+                        }
+
+                        scale: pressed ? 0.95 : 1.0
+                        Behavior on scale {
+                            NumberAnimation {
+                                duration: 100
+                                easing.type: Easing.OutCubic
+                            }
                         }
                     }
                 }
+
             }
         }
+    }
+    ColumnLayout {
+        id: modulesSection
+        anchors.top: cardBackground.bottom
+        anchors.left: cardBackground.left
+        anchors.right: cardBackground.right
+        visible: modulesExpanded
+        opacity: modulesExpanded ? 1 : 0
+        spacing: 10
+        anchors.margins: cardMargin
 
-        // Bottom border
-        Rectangle {
-            height: 1
-            width: parent.width - (contentSpacing * 2)
-            anchors.bottom: parent.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottomMargin: contentSpacing
-            color: "#ffffff20"
+        Behavior on opacity {
+            NumberAnimation { duration: 200; easing.type: Easing.OutCubic }
         }
 
-        // Mouse area for hover effects
-        MouseArea {
-            id: cardMouseArea
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-
-            onClicked: {
-                if (productWebpage.length > 0) {
-                    Qt.openUrlExternally(productWebpage)
-                }
+        Repeater {
+            model: productModules
+            ModuleCard {
+                module: modelData
             }
         }
     }

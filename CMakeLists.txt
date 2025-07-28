@@ -7,6 +7,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Quick)
+find_package(Qt6 REQUIRED COMPONENTS QuickControls2)
 
 qt_standard_project_setup(REQUIRES 6.8)
 
@@ -23,6 +24,7 @@ qt_add_qml_module(appuntitled
         Styles.qml
         DownloadButton.qml
         ProductCard.qml
+        ModuleCard.qml
     SOURCES
         controller.cpp
         controller.h
@@ -44,9 +46,8 @@ set_target_properties(appuntitled PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-target_link_libraries(appuntitled
-    PRIVATE Qt6::Quick
-)
+target_link_libraries(appuntitled PRIVATE Qt6::Quick)
+target_link_libraries(appuntitled PRIVATE Qt6::QuickControls2)
 
 include(GNUInstallDirs)
 install(TARGETS appuntitled

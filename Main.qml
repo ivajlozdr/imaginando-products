@@ -86,7 +86,7 @@ ApplicationWindow {
             spacing: cardSpacing
             clip: true
 
-            cacheBuffer: height * 2
+            cacheBuffer: height > 0 ? height * 2 : 200
             reuseItems: true
 
             topMargin: cardSpacing
@@ -97,14 +97,15 @@ ApplicationWindow {
                 cardMargin: root.cardMargin
                 cardRadius: root.cardRadius
                 currentBreakpoint: root.currentBreakpoint
+                onHeightChanged: listView.forceLayout()
 
                 productName: model.name || "No name"
                 productWebpage: model.webpage || "No link"
                 productLogo: model.logo || ""
                 productDownload: model.download || ""
                 productColorPrimary: model.colorPrimary || "#333333"
+                productModules: model.modules
             }
-
             flickDeceleration: 1500
             maximumFlickVelocity: 2500
         }

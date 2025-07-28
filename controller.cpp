@@ -18,12 +18,6 @@ Controller::Controller(QObject *parent)
 {
     manager = new QNetworkAccessManager(this);
     connect(manager, &QNetworkAccessManager::finished, this, &Controller::ReplyFinished);
-
-    Product *p = new Product(this);
-
-    m_model.append(p);
-
-    emit modelChanged();
 }
 
 QQmlListProperty<Product> Controller::model()
