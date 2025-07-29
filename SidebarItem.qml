@@ -17,7 +17,7 @@ Item {
     property int baseHeight: 60
 
     property int contentHeight: contentItemLoader.item ? contentItemLoader.item.implicitHeight + 40
-                               : (contentText.length > 0 ? textItem.implicitHeight + 40 : 0)
+                                                       : (contentText.length > 0 ? textItem.implicitHeight + 40 : 0)
 
     property int internalHeight: baseHeight
     height: internalHeight
