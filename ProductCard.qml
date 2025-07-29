@@ -48,15 +48,15 @@ Item {
             orientation: Gradient.Horizontal
             GradientStop {
                 position: 0.0
-                color: Qt.lighter(productColorPrimary, 0.8)
+                color: Qt.darker(productColorPrimary, 2)
             }
             GradientStop {
                 position: 0.4
-                color: Qt.darker(productColorPrimary, 2.0)
+                color: Qt.darker(productColorPrimary, 4.0)
             }
             GradientStop {
                 position: 0.6
-                color: Qt.darker(productColorPrimary, 4.0)
+                color: Qt.darker(productColorPrimary, 6.0)
             }
             GradientStop {
                 position: 0.75
