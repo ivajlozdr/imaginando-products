@@ -4,5 +4,10 @@
         <file>logo_imaginando.png</file>
         <file>ModuleCard.qml</file>
         <file>imaginando.ico</file>
+        <file>logo_sidebar.png</file>
+        <file>about.svg</file>
+        <file>profile.svg</file>
+        <file>store.svg</file>
+        <file>help.svg</file>
     </qresource>
 </RCC>
