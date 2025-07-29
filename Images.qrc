@@ -9,5 +9,6 @@
         <file>profile.svg</file>
         <file>store.svg</file>
         <file>help.svg</file>
+        <file>copy.svg</file>
     </qresource>
 </RCC>

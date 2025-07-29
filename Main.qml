@@ -65,6 +65,7 @@ ApplicationWindow {
         color: "#222126"
 
         property bool aboutExpanded: false
+        property bool profileExpanded: false
 
         Behavior on x {
             NumberAnimation { duration: 300; easing.type: Easing.OutCubic }
@@ -72,7 +73,7 @@ ApplicationWindow {
 
         ScrollView {
             anchors.fill: parent
-            anchors.bottomMargin: 0 // Remove bottom margin
+            anchors.bottomMargin: 0
             ScrollBar.vertical.policy: ScrollBar.AsNeeded
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
             clip: true
@@ -81,111 +82,32 @@ ApplicationWindow {
                 width: sidebar.width
                 spacing: 0
 
-                Repeater {
-                    model: [
-                        { icon: "qrc:/profile.svg", text: "PROFILE", dropdown: false },
-                        { icon: "qrc:/store.svg", text: "STORE", dropdown: false },
-                        { icon: "qrc:/about.svg", text: "ABOUT", dropdown: true },
-                        { icon: "qrc:/help.svg", text: "HELP", dropdown: false }
-                    ]
+                SidebarItem {
+                    icon: "qrc:/profile.svg"
+                    label: "PROFILE"
+                    expandable: true
+                    contentItem: Login {}
+                }
 
-                    delegate: Column {
-                        width: sidebar.width
-                        spacing: 0
 
-                        Rectangle {
-                            width: sidebar.width
-                            height: 60
-                            color: mouseArea.containsMouse ? "#404040" : "transparent"
+                SidebarItem {
+                    icon: "qrc:/about.svg"
+                    label: "ABOUT"
+                    expandable: true
+                    contentText: "Version 1.0.0\n\n© 2025 Imaginando, Lda.\nAll Rights Reserved. Made in Portugal.\n\nCredits\nMaria Malcheva, Ivaylo Zdravkov, ChatGPT in times of desperation, and the Imaginando team.\n\nWhile we had barely 8 days here to work (becomes very clear when you look at the code), we're thankful for the opportunity to make something new and bond with the team. You guys rock.\n\nMade in relation to the Erasmus+ Mobility Programme 2025."
+                }
 
-                            MouseArea {
-                                id: mouseArea
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                onClicked: {
-                                    if (modelData.dropdown) {
-                                        sidebar.aboutExpanded = !sidebar.aboutExpanded
-                                    } else {
-                                        console.log("Clicked:", modelData.text)
-                                        // logic to be done lol
-                                    }
-                                }
-                            }
-
-                            Row {
-                                anchors.left: parent.left
-                                anchors.leftMargin: 20
-                                anchors.verticalCenter: parent.verticalCenter
-                                spacing: 15
-
-                                Image {
-                                    id: sidebarSectionIcon
-                                    source: modelData.icon
-                                    anchors.verticalCenter: parent.verticalCenter
-                                }
-
-                                Text {
-                                    text: modelData.text
-                                    font.pixelSize: 14
-                                    font.weight: Font.Medium
-                                    color: "#FAFAFA"
-                                    anchors.verticalCenter: parent.verticalCenter
-                                }
-                            }
-
-                            Text {
-                                text: modelData.dropdown ? (sidebar.aboutExpanded ? "▼" : "▶") : ""
-                                font.pixelSize: 12
-                                color: "#FAFAFA"
-                                anchors.right: parent.right
-                                anchors.rightMargin: 20
-                                anchors.verticalCenter: parent.verticalCenter
-
-                                Behavior on rotation {
-                                    NumberAnimation { duration: 200; easing.type: Easing.OutCubic }
-                                }
-                            }
-                        }
-
-                        Rectangle {
-                            width: sidebar.width
-                            height: modelData.dropdown ? (sidebar.aboutExpanded ? aboutText.implicitHeight + 40 : 0) : 0
-                            color: "#333239"
-                            clip: true
-                            visible: modelData.dropdown
-
-                            Behavior on height {
-                                NumberAnimation { duration: 300; easing.type: Easing.OutCubic }
-                            }
-
-                            Text {
-                                id: aboutText
-                                anchors.left: parent.left
-                                anchors.right: parent.right
-                                anchors.top: parent.top
-                                anchors.margins: 20
-
-                                text: "Version 1.0.0\n\n© 2025 Imaginando, Lda.\nAll Rights Reserved. Made in Portugal.\n\nCredits\nMaria Malcheva, Ivaylo Zdravkov, ChatGPT in times of desperation, and the Imaginando team.\n\nWhile we had barely 8 days here to work (becomes very clear when you look at the code), we're thankful for the opportunity to make something new and bond with the team. You guys rock.\n\nMade in relation to the Erasmus+ Mobility Programme 2025."
-
-                                font.pixelSize: 11
-                                color: "#FAFAFA"
-                                wrapMode: Text.WordWrap
-                                lineHeight: 1.3
-
-                                opacity: sidebar.aboutExpanded ? 1 : 0
-
-                                Behavior on opacity {
-                                    NumberAnimation { duration: 200; easing.type: Easing.OutCubic }
-                                }
-                            }
-                        }
+                SidebarItem {
+                    icon: "qrc:/help.svg"
+                    label: "HELP"
+                    expandable: false
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: Qt.openUrlExternally("https://www.imaginando.pt/contact-us")
                     }
                 }
 
-                Item {
-                    width: sidebar.width
-                    height: 80
-                }
+                Item { width: sidebar.width; height: 80 }
             }
         }
 
