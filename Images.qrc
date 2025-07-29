@@ -3,5 +3,6 @@
         <file>Styles.qml</file>
         <file>logo_imaginando.png</file>
         <file>ModuleCard.qml</file>
+        <file>imaginando.ico</file>
     </qresource>
 </RCC>

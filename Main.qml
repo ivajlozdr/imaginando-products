@@ -10,7 +10,7 @@ ApplicationWindow {
     height: 600
     minimumWidth: 400
     minimumHeight: 300
-    title: "Product Viewer"
+    title: "Imaginando Product Panel"
 
     readonly property int breakpointSmall: 600
     readonly property int breakpointMedium: 900

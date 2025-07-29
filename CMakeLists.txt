@@ -46,6 +46,10 @@ set_target_properties(appuntitled PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
+if(WIN32)
+    target_sources(appuntitled PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/icon.rc)
+endif()
+
 target_link_libraries(appuntitled PRIVATE Qt6::Quick)
 target_link_libraries(appuntitled PRIVATE Qt6::QuickControls2)
 
