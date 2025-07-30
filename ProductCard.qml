@@ -215,7 +215,7 @@ Item {
 
                         onClicked: {
                             if (productDownload.length > 0) {
-                                Qt.openUrlExternally(productDownload)
+                                controller.install(productDownload)
                             }
                         }
                     }

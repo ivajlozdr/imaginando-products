@@ -37,6 +37,7 @@ qt_add_qml_module(imgpp
     RESOURCES
         Images.qrc
         icon.rc
+        QML_FILES DownloadingOverlay.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

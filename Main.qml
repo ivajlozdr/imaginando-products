@@ -238,4 +238,5 @@ ApplicationWindow {
             maximumFlickVelocity: 2500
         }
     }
+    DownloadingOverlay {}
 }
