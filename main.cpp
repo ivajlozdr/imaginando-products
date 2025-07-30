@@ -9,8 +9,8 @@ int main(int argc, char *argv[]) {
     QQuickStyle::setStyle("Basic");
     QQmlApplicationEngine engine;
 
-    qmlRegisterType<Product>("untitled", 1, 0, "Product");
-    qmlRegisterType<Modules>("untitled", 1, 0, "Modules");
+    qmlRegisterType<Product>("imaginando", 1, 0, "Product");
+    qmlRegisterType<Modules>("imaginando", 1, 0, "Modules");
 
     Controller controller;
     engine.rootContext()->setContextProperty("controller", &controller);
@@ -24,8 +24,8 @@ int main(int argc, char *argv[]) {
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
 
-    qmlRegisterSingletonType(QUrl("qrc:/Styles.qml"), "untitled", 1, 0, "Styles");
-    engine.loadFromModule("untitled", "Main");
+    qmlRegisterSingletonType(QUrl("qrc:/Styles.qml"), "imaginando", 1, 0, "Styles");
+    engine.loadFromModule("imaginando", "Main");
 
     return app.exec();
 }

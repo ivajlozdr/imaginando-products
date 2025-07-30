@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(untitled VERSION 0.1 LANGUAGES CXX)
+project(imaginando VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
@@ -11,13 +11,13 @@ find_package(Qt6 REQUIRED COMPONENTS QuickControls2)
 
 qt_standard_project_setup(REQUIRES 6.8)
 
-qt_add_executable(appuntitled
+qt_add_executable(imgpp
     main.cpp
     Images.qrc
 )
 
-qt_add_qml_module(appuntitled
-    URI untitled
+qt_add_qml_module(imgpp
+    URI imaginando
     VERSION 1.0
     QML_FILES
         Main.qml
@@ -42,8 +42,8 @@ qt_add_qml_module(appuntitled
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
-set_target_properties(appuntitled PROPERTIES
-#    MACOSX_BUNDLE_GUI_IDENTIFIER com.example.appuntitled
+set_target_properties(imgpp PROPERTIES
+#    MACOSX_BUNDLE_GUI_IDENTIFIER com.example.imgpp
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
@@ -51,14 +51,14 @@ set_target_properties(appuntitled PROPERTIES
 )
 
 if(WIN32)
-    target_sources(appuntitled PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/icon.rc)
+    target_sources(imgpp PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/icon.rc)
 endif()
 
-target_link_libraries(appuntitled PRIVATE Qt6::Quick)
-target_link_libraries(appuntitled PRIVATE Qt6::QuickControls2)
+target_link_libraries(imgpp PRIVATE Qt6::Quick)
+target_link_libraries(imgpp PRIVATE Qt6::QuickControls2)
 
 include(GNUInstallDirs)
-install(TARGETS appuntitled
+install(TARGETS imgpp
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
