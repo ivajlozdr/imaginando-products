@@ -34,6 +34,11 @@ bool Controller::isLoading() const
     return m_loading;
 }
 
+qreal Controller::downloadProgress() const
+{
+    return m_downloadProgress;
+}
+
 void Controller::setLoading(bool loading)
 {
     if (m_loading == loading)
@@ -41,6 +46,14 @@ void Controller::setLoading(bool loading)
 
     m_loading = loading;
     emit loadingChanged();
+}
+
+void Controller::setDownloadProgress(qreal progress)
+{
+    if (m_downloadProgress != progress) {
+        m_downloadProgress = progress;
+        emit downloadProgressChanged(progress);
+    }
 }
 
 qsizetype Controller::modelCount(QQmlListProperty<Product> *list)
@@ -209,11 +222,12 @@ void Controller::launchInstaller(const QString &folderPath, const QString &exeNa
 
 void Controller::install(const QString &url)
 {
-    cleanTempDir();
     setLoading(true);
+    cleanTempDir();
     qDebug() << "installing...";
     if (url.isEmpty()) {
         qWarning() << "No download URL found for product";
+        setLoading(false);
         return;
     }
 
@@ -222,10 +236,21 @@ void Controller::install(const QString &url)
 
     qDebug() << "connecting...";
     qDebug() << "url:" << url;
+
+    connect(reply,
+            &QNetworkReply::downloadProgress,
+            this,
+            [=](qint64 bytesReceived, qint64 bytesTotal) {
+                qreal progress = bytesTotal > 0 ? (qreal) bytesReceived / bytesTotal : 0;
+                m_downloadProgress = progress;
+                emit downloadProgressChanged(progress);
+            });
+
     connect(reply, &QNetworkReply::finished, this, [=]() {
         if (reply->error() != QNetworkReply::NoError) {
             qWarning() << "Download failed:" << reply->errorString();
             reply->deleteLater();
+            setLoading(false);
             return;
         }
 
@@ -241,6 +266,7 @@ void Controller::install(const QString &url)
         if (!file.open(QIODevice::WriteOnly)) {
             qWarning() << "Can't write zip file:" << file.errorString();
             reply->deleteLater();
+            setLoading(false);
             return;
         }
 
@@ -254,6 +280,7 @@ void Controller::install(const QString &url)
         qDebug() << "unzipping...";
         if (!unzipFile(zipPath, extractPath)) {
             qWarning() << "Unzipping failed";
+            setLoading(false);
             return;
         }
         qDebug() << "launching installer...";
@@ -262,8 +289,8 @@ void Controller::install(const QString &url)
         QString exeName = baseName + ".exe";
         qDebug() << "exeName: " << exeName;
         launchInstaller(extractPath, exeName);
+        setLoading(false);
     });
-    setLoading(false);
 }
 
 void Controller::cleanTempDir()

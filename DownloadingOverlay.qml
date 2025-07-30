@@ -3,33 +3,36 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 Item {
-    id: overlay
     visible: controller.loading
     anchors.fill: parent
     z: 999
 
     Rectangle {
-        anchors.fill: parent
-        color: "#AA000000"
-    }
-
-    Column {
-        spacing: 12
         anchors.centerIn: parent
-        width: 120
+        width: 300
+        height: 100
+        color: "#222"
+        radius: 12
+        border.color: "#444"
+        border.width: 1
 
-        BusyIndicator {
-            running: true
-            width: 40
-            height: 40
-        }
+        Column {
+            anchors.centerIn: parent
+            spacing: 12
 
-        Text {
-            text: "Installing..."
-            color: "white"
-            font.pixelSize: 16
-            horizontalAlignment: Text.AlignHCenter
-            wrapMode: Text.Wrap
+            Text {
+                text: "Downloading..."
+                color: "white"
+                font.pixelSize: 16
+                horizontalAlignment: Text.AlignHCenter
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
+            ProgressBar {
+                value: controller.downloadProgress
+                width: 250
+            }
         }
     }
 }
+
