@@ -22,7 +22,6 @@ qt_add_qml_module(imgpp
     QML_FILES
         Main.qml
         Styles.qml
-        DownloadButton.qml
         ProductCard.qml
         ModuleCard.qml
         SidebarItem.qml
