@@ -16,10 +16,11 @@
 #include <QVariantMap>
 #include "product.h"
 
-bool m_loading = false;
-
 Controller::Controller(QObject *parent)
-    : QObject(parent)
+    : QObject(parent),
+    m_loading(false),
+    m_downloadProgress(0.0),
+    m_verbosity(1)
 {
     manager = new QNetworkAccessManager(this);
 }
@@ -311,7 +312,7 @@ void Controller::install(const QString &url)
         baseName.chop(8);
         QString exeName = baseName + ".exe";
         qDebug() << "exeName: " << exeName;
-        launchInstaller(extractPath, exeName, 1);
+        launchInstaller(extractPath, exeName, m_verbosity);
         setLoading(false);
     });
 }

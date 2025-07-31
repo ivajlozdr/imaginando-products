@@ -314,6 +314,15 @@ Item {
                    NumberAnimation { duration: 200; easing.type: Easing.OutCubic }
         }
 
+        /*
+
+        the following gotta go:
+
+        -Synth engine
+        -Factory pack
+        -All licenses, should be refactored into a "purchase" button.
+
+        */
         Repeater {
             model: productModules
             ModuleCard {

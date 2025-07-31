@@ -15,6 +15,8 @@ class Controller : public QObject
     Q_PROPERTY(QQmlListProperty<Product> model READ model NOTIFY modelChanged)
     Q_PROPERTY(bool loading READ isLoading WRITE setLoading NOTIFY loadingChanged)
     Q_PROPERTY(qreal downloadProgress READ downloadProgress NOTIFY downloadProgressChanged)
+    Q_PROPERTY(int verbosity READ verbosity WRITE setVerbosity NOTIFY verbosityChanged)
+
 public:
     explicit Controller(QObject *parent = nullptr);
 
@@ -23,6 +25,13 @@ public:
     qreal downloadProgress() const;
     void setLoading(bool loading);
     void setDownloadProgress(qreal progress);
+    int verbosity() const { return m_verbosity; }
+    void setVerbosity(int v) {
+        if (m_verbosity != v) {
+            m_verbosity = v;
+            emit verbosityChanged();
+        }
+    }
 
     static qsizetype modelCount(QQmlListProperty<Product> *list);
     static Product *modelAt(QQmlListProperty<Product> *list, qsizetype index);
@@ -40,6 +49,8 @@ signals:
     void modelChanged();
     void loadingChanged();
     void downloadProgressChanged(qreal progress);
+    void verbosityChanged();
+
 
 private slots:
     void ReplyFinished(QNetworkReply *reply);
@@ -47,6 +58,7 @@ private slots:
 private:
     QNetworkAccessManager *manager;
     QList<Product *> m_model;
-    bool m_loading;
+    bool m_loading = false;
     qreal m_downloadProgress = 0.0;
+    int m_verbosity;
 };

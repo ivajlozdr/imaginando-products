@@ -94,7 +94,8 @@ Item {
                 something to tell the user - this makes it so the installer is
                 fully visible during download and you can manually configure everything
 
-                !! This should change the *verbosity* level when calling Controller::launchInstaller()
+                !! This changes the *verbosity* level when calling Controller::launchInstaller()
+                to the following:
 
                 VERBOSITY=3
 
@@ -107,7 +108,7 @@ Item {
                         checked: false
                         ButtonGroup.group: installModeGroup
                         onCheckedChanged: if (checked) {
-                            console.log("VERBOSITY=3")
+                            controller.verbosity = 3
                         }
 
                         indicator: Rectangle {
@@ -144,7 +145,8 @@ Item {
                 something to tell the user - this makes it so the installer is
                 visible during download, but you cannot touch any settings.
 
-                !! This should change the *verbosity* level when calling Controller::launchInstaller()
+                !! This changes the *verbosity* level when calling Controller::launchInstaller()
+                to the following:
 
                 VERBOSITY=2
 
@@ -157,7 +159,7 @@ Item {
                         checked: false
                         ButtonGroup.group: installModeGroup
                         onCheckedChanged: if (checked) {
-                            console.log("VERBOSITY=2")
+                            controller.verbosity = 2
                         }
 
                         indicator: Rectangle {
@@ -194,7 +196,8 @@ Item {
                 something to tell the user - this makes it so the installer is
                 NOT visible during download, but you cannot touch any settings.
 
-                !! This should change the *verbosity* level when calling Controller::launchInstaller()
+                !! This changes the *verbosity* level when calling Controller::launchInstaller()
+                to the following:
 
                 VERBOSITY=1
 
@@ -207,7 +210,7 @@ Item {
                         checked: true
                         ButtonGroup.group: installModeGroup
                         onCheckedChanged: if (checked) {
-                            console.log("VERBOSITY=1")
+                            controller.verbosity = 1
                         }
 
                         indicator: Rectangle {

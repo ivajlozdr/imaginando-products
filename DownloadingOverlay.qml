@@ -4,7 +4,7 @@ import QtQuick.Layouts
 
 /*
 
-warning: this sucks
+warning: this shucks nuts
 
 it only tracks the download progress of the archive.
 
