@@ -10,5 +10,6 @@
         <file>store.svg</file>
         <file>help.svg</file>
         <file>copy.svg</file>
+        <file>settings.svg</file>
     </qresource>
 </RCC>

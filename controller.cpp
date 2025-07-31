@@ -167,12 +167,12 @@ QString Controller::getDownloadLinkForProduct(const QString &product)
     return downloadUrl;
 }
 
-void Controller::launchInstaller(const QString &folderPath, const QString &exeName)
+void Controller::launchInstaller(const QString &folderPath,
+                                 const QString &exeName,
+                                 const int &verbosity)
 {
     QString installerPath = folderPath + "/" + exeName;
     qDebug() << "Launching installer:" << installerPath;
-
-    QProcess *process = new QProcess(this);
 
     /** 
       
@@ -189,11 +189,27 @@ void Controller::launchInstaller(const QString &folderPath, const QString &exeNa
     */
     QStringList arguments;
 
-    arguments << "/VERYSILENT"
-              << "/NOCANCEL"
-              << "/NORESTART"
-              << "/TASKS=desktopicon"
-              << "/COMPONENTS=full";
+    switch (verbosity) {
+    case 1:
+        arguments << "/NORESTART";
+        break;
+
+    case 2:
+        arguments << "/SILENT"
+                  << "/NOCANCEL"
+                  << "/TASKS=desktopicon"
+                  << "/COMPONENTS=default";
+        break;
+
+    case 3:
+    default:
+        arguments << "/VERYSILENT"
+                  << "/NOCANCEL"
+                  << "/NORESTART"
+                  << "/TASKS=desktopicon"
+                  << "/COMPONENTS=full";
+        break;
+    }
 
     const int maxRetries = 5;
     const int retryDelayMs = 200;
@@ -201,22 +217,19 @@ void Controller::launchInstaller(const QString &folderPath, const QString &exeNa
     bool started = false;
 
     while (attempt < maxRetries) {
-        started = process->startDetached(installerPath, arguments);
+        started = QProcess::startDetached(installerPath, arguments);
         if (started) {
             qDebug() << "Installer started successfully on attempt" << (attempt + 1);
             break;
         }
 
-        qWarning() << "Failed to start installer (attempt" << (attempt + 1)
-                   << "):" << process->errorString();
-
+        qWarning() << "Failed to start installer (attempt" << (attempt + 1) << ")";
         QThread::msleep(retryDelayMs);
         attempt++;
     }
 
     if (!started) {
         qWarning() << "All attempts to start installer failed.";
-        delete process;
     }
 }
 
@@ -288,7 +301,7 @@ void Controller::install(const QString &url)
         baseName.chop(8);
         QString exeName = baseName + ".exe";
         qDebug() << "exeName: " << exeName;
-        launchInstaller(extractPath, exeName);
+        launchInstaller(extractPath, exeName, 1);
         setLoading(false);
     });
 }

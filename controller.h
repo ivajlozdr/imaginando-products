@@ -31,7 +31,9 @@ public:
     Q_INVOKABLE static QString getDownloadLinkForProduct(const QString &product);
     Q_INVOKABLE bool unzipFile(const QString &zipPath, const QString &extractPath);
     Q_INVOKABLE void install(const QString &url);
-    Q_INVOKABLE void launchInstaller(const QString &folderPath, const QString &exeName);
+    Q_INVOKABLE void launchInstaller(const QString &folderPath,
+                                     const QString &exeName,
+                                     const int &verbosity);
     Q_INVOKABLE void cleanTempDir();
 
 signals:

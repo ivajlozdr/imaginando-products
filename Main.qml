@@ -89,6 +89,12 @@ ApplicationWindow {
                     contentItem: Login {}
                 }
 
+                SidebarItem {
+                    icon: "qrc:/settings.svg"
+                    label: "SETTINGS"
+                    expandable: true
+                    contentItem: Settings {}
+                }
 
                 SidebarItem {
                     icon: "qrc:/about.svg"
