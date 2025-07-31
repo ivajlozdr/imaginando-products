@@ -1,5 +1,6 @@
 {
     "BAM": {"win": "https://www.imaginando.pt/uploads/bam/1.5.1/BAM_Win.zip", "mac": "https://www.imaginando.pt/uploads/bam/1.5.1/BAM_Mac.zip"},
+    "FRMS": {"win": "https://www.imaginando.pt/uploads/frms/1.12.2/FRMS_Win.zip", "mac": "https://www.imaginando.pt/uploads/frms/1.12.2/FRMS_Mac.zip"},
     "DLYM": {"win": "https://www.imaginando.pt/uploads/dlym/2.2.0/DLYM_Win.zip", "mac": "https://www.imaginando.pt/uploads/dlym/2.2.0/DLYM_Mac.zip"},
     "DRC": {"win": "https://www.imaginando.pt/uploads/drc/2.13.2/DRC_Win.zip", "mac": "https://www.imaginando.pt/uploads/drc/2.13.2/DRC_Mac.zip"},
     "GRFX": {"win": "https://www.imaginando.pt/uploads/grfx/1.0.0/GRFX_Win.zip", "mac": "https://www.imaginando.pt/uploads/grfx/1.0.0/GRFX_Mac.zip"},
