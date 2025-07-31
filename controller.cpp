@@ -181,7 +181,7 @@ void Controller::launchInstaller(const QString &folderPath,
     use no args to have full setup with prompts
     use /DIR= to hardcode installation dir
 
-    ▼▼▼ !! these WILL SKIP any optional check in the gui !! ▼▼▼
+    !! these below WILL SKIP any optional check in the gui !!
     
     use /SILENT to see the installer box install stuff. no prompts, it just installs stuff.
     use /VERYSILENT for nothing at all.
