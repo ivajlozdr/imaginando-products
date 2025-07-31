@@ -20,7 +20,7 @@ Rectangle {
     property int originalPrice: module?.priceCurrent || 0
     property string purchase: module?.purchase || ""
     property string formattedPrice: originalPrice > 0 ?
-        "$" + (originalPrice / 100).toFixed(2) : "Free"
+        (originalPrice / 100).toFixed(2) + "€" : "Free"
     property bool hovered: false
     property bool pressed: false
 
