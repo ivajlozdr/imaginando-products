@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 
-
 /*
 
 simply a dummy
@@ -29,7 +28,7 @@ Item {
             // main stuff
             Text {
                 text: "Download Settings"
-                color: "#FFFFFF"
+                color: "#FAFAFA"
                 font.pixelSize: 14
                 font.weight: Font.Medium
             }
@@ -53,7 +52,7 @@ Item {
                             color: "#FAFAFA"
                         }
                     }
-                    color: "#FFFFFF"
+                    color: "#FAFAFA"
                     placeholderTextColor: "#FAFAFA"
                     leftPadding: 0
                     rightPadding: 32
@@ -81,29 +80,14 @@ Item {
                 }
             }
 
-            Row {
-                spacing: 8
-                CheckBox {
-                    id: customiseCheck
-                    checked: false
-                    indicator: Rectangle {
-                        implicitWidth: 16
-                        implicitHeight: 16
-                        x: customiseCheck.leftPadding
-                        y: parent.height / 2 - height / 2
-                        radius: 2
-                        color: customiseCheck.checked ? "#FAFAFA" : "transparent"
-                        border.color: "#CCCCCC"
-                        border.width: 1
-                        Text {
-                            anchors.centerIn: parent
-                            text: "✓"
-                            color: "#000000"
-                            font.pixelSize: 10
-                            visible: customiseCheck.checked
-                        }
-                    }
-                }
+            ButtonGroup {
+                id: installModeGroup
+                exclusive: true
+            }
+
+            Column {
+                spacing: 12
+
                 /*
 
                 this probably needs an info box or something.
@@ -115,37 +99,45 @@ Item {
                 VERBOSITY=3
 
                 */
-                Text {
-                    text: "Customise Install"
-                    anchors.verticalCenter: parent.verticalCenter
-                    color: "#CCCCCC"
-                    font.pixelSize: 12
-                }
-            }
+                Row {
+                    spacing: 8
+                    RadioButton {
+                        id: customiseRadio
+                        text: ""
+                        checked: false
+                        ButtonGroup.group: installModeGroup
+                        onCheckedChanged: if (checked) {
+                            console.log("VERBOSITY=3")
+                        }
 
-            Row {
-                spacing: 8
-                CheckBox {
-                    id: showInstallerCheck
-                    checked: false
-                    indicator: Rectangle {
-                        implicitWidth: 16
-                        implicitHeight: 16
-                        x: showInstallerCheck.leftPadding
-                        y: parent.height / 2 - height / 2
-                        radius: 2
-                        color: showInstallerCheck.checked ? "#FAFAFA" : "transparent"
-                        border.color: "#CCCCCC"
-                        border.width: 1
-                        Text {
-                            anchors.centerIn: parent
-                            text: "✓"
-                            color: "#000000"
-                            font.pixelSize: 10
-                            visible: showInstallerCheck.checked
+                        indicator: Rectangle {
+                            implicitWidth: 16
+                            implicitHeight: 16
+                            x: customiseRadio.leftPadding
+                            y: parent.height / 2 - height / 2
+                            radius: width / 2
+                            border.color: "#CCCCCC"
+                            border.width: 1
+                            color: customiseRadio.checked ? "#FAFAFA" : "transparent"
+
+                            Rectangle {
+                                anchors.centerIn: parent
+                                width: 8
+                                height: 8
+                                radius: 4
+                                color: customiseRadio.checked ? "#000000" : "transparent"
+                            }
                         }
                     }
+
+                    Text {
+                        text: "Customise Install"
+                        color: "#CCCCCC"
+                        font.pixelSize: 12
+                        anchors.verticalCenter: customiseRadio.verticalCenter
+                    }
                 }
+
                 /*
 
                 this probably needs an info box or something.
@@ -157,37 +149,45 @@ Item {
                 VERBOSITY=2
 
                 */
-                Text {
-                    text: "Visible Installer"
-                    anchors.verticalCenter: parent.verticalCenter
-                    color: "#CCCCCC"
-                    font.pixelSize: 12
-                }
-            }
+                Row {
+                    spacing: 8
+                    RadioButton {
+                        id: showInstallerRadio
+                        text: ""
+                        checked: false
+                        ButtonGroup.group: installModeGroup
+                        onCheckedChanged: if (checked) {
+                            console.log("VERBOSITY=2")
+                        }
 
-            Row {
-                spacing: 8
-                CheckBox {
-                    id: silentCheck
-                    checked: true
-                    indicator: Rectangle {
-                        implicitWidth: 16
-                        implicitHeight: 16
-                        x: silentCheck.leftPadding
-                        y: parent.height / 2 - height / 2
-                        radius: 2
-                        color: silentCheck.checked ? "#FAFAFA" : "transparent"
-                        border.color: "#CCCCCC"
-                        border.width: 1
-                        Text {
-                            anchors.centerIn: parent
-                            text: "✓"
-                            color: "#000000"
-                            font.pixelSize: 10
-                            visible: silentCheck.checked
+                        indicator: Rectangle {
+                            implicitWidth: 16
+                            implicitHeight: 16
+                            x: showInstallerRadio.leftPadding
+                            y: parent.height / 2 - height / 2
+                            radius: width / 2
+                            border.color: "#CCCCCC"
+                            border.width: 1
+                            color: showInstallerRadio.checked ? "#FAFAFA" : "transparent"
+
+                            Rectangle {
+                                anchors.centerIn: parent
+                                width: 8
+                                height: 8
+                                radius: 4
+                                color: showInstallerRadio.checked ? "#000000" : "transparent"
+                            }
                         }
                     }
+
+                    Text {
+                        text: "Visible Installer"
+                        color: "#CCCCCC"
+                        font.pixelSize: 12
+                        anchors.verticalCenter: showInstallerRadio.verticalCenter
+                    }
                 }
+
                 /*
 
                 this probably needs an info box or something.
@@ -199,11 +199,43 @@ Item {
                 VERBOSITY=1
 
                 */
-                Text {
-                    text: "Silent Install"
-                    anchors.verticalCenter: parent.verticalCenter
-                    color: "#CCCCCC"
-                    font.pixelSize: 12
+                Row {
+                    spacing: 8
+                    RadioButton {
+                        id: silentRadio
+                        text: ""
+                        checked: true
+                        ButtonGroup.group: installModeGroup
+                        onCheckedChanged: if (checked) {
+                            console.log("VERBOSITY=1")
+                        }
+
+                        indicator: Rectangle {
+                            implicitWidth: 16
+                            implicitHeight: 16
+                            x: silentRadio.leftPadding
+                            y: parent.height / 2 - height / 2
+                            radius: width / 2
+                            border.color: "#CCCCCC"
+                            border.width: 1
+                            color: silentRadio.checked ? "#FAFAFA" : "transparent"
+
+                            Rectangle {
+                                anchors.centerIn: parent
+                                width: 8
+                                height: 8
+                                radius: 4
+                                color: silentRadio.checked ? "#000000" : "transparent"
+                            }
+                        }
+                    }
+
+                    Text {
+                        text: "Silent Install"
+                        color: "#CCCCCC"
+                        font.pixelSize: 12
+                        anchors.verticalCenter: silentRadio.verticalCenter
+                    }
                 }
             }
         }
@@ -215,7 +247,7 @@ Item {
 
             Text {
                 text: "Appearance"
-                color: "#FFFFFF"
+                color: "#FAFAFA"
                 font.pixelSize: 14
                 font.weight: Font.Medium
             }
@@ -232,7 +264,7 @@ Item {
                         y: parent.height / 2 - height / 2
                         radius: 2
                         color: darkModeCheck.checked ? "#FAFAFA" : "transparent"
-                        border.color: "#CCCCCC"
+                        border.color: "#FAFAFA"
                         border.width: 1
                         Text {
                             anchors.centerIn: parent
@@ -246,7 +278,7 @@ Item {
                 Text {
                     text: "Dark mode"
                     anchors.verticalCenter: parent.verticalCenter
-                    color: "#CCCCCC"
+                    color: "#FAFAFA"
                     font.pixelSize: 12
                 }
             }
@@ -262,7 +294,7 @@ Item {
                         y: parent.height / 2 - height / 2
                         radius: 2
                         color: minimizeToTrayCheck.checked ? "#FAFAFA" : "transparent"
-                        border.color: "#CCCCCC"
+                        border.color: "#FAFAFA"
                         border.width: 1
                         Text {
                             anchors.centerIn: parent
@@ -276,7 +308,7 @@ Item {
                 Text {
                     text: "Minimize to tray"
                     anchors.verticalCenter: parent.verticalCenter
-                    color: "#CCCCCC"
+                    color: "#FAFAFA"
                     font.pixelSize: 12
                 }
             }
@@ -297,7 +329,7 @@ Item {
                     text: parent.text
                     font.pixelSize: 12
                     font.weight: Font.Medium
-                    color: "#FFFFFF"
+                    color: "#FAFAFA"
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -322,7 +354,7 @@ Item {
                     text: parent.text
                     font.pixelSize: 12
                     font.weight: Font.Medium
-                    color: "#FFFFFF"
+                    color: "#FAFAFA"
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -341,7 +373,7 @@ Item {
                     text: parent.text
                     font.pixelSize: 12
                     font.weight: Font.Medium
-                    color: "#FFFFFF"
+                    color: "#FAFAFA"
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                 }
