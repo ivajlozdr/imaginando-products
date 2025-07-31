@@ -14,7 +14,7 @@ Item {
     property string productWebpage: ""
     property string productLogo: ""
     property string productDownload: ""
-    property color productColorPrimary: "#333333"
+    property color productColorPrimary: "#222126"
     property bool modulesExpanded: false
     property int baseHeight: currentBreakpoint === "small" ? 180 : 220
 
@@ -68,7 +68,7 @@ Item {
             }
         }
 
-        border.color: "#333333"
+        border.color: "#222126"
         border.width: 1
 
         Behavior on scale {
@@ -92,19 +92,19 @@ Item {
                     id: imageContainer
                     anchors.fill: parent
                     radius: 12
-                    color: "#333333"
+                    color: "#222126"
 
                     Rectangle {
                         id: imagePlaceholder
                         anchors.fill: parent
                         radius: parent.radius
-                        color: "#333333"
+                        color: "#222126"
                         visible: productImage.status !== Image.Ready
 
                         Text {
                             anchors.centerIn: parent
                             text: "📦"
-                            color: "#333333"
+                            color: "#222126"
                             font.pixelSize: imageSize * 0.3
                         }
                     }
@@ -171,7 +171,9 @@ Item {
 
                     Button {
                         id: downloadBtn
-                        text: "Download"
+                        text: productName === "DRC T-shirt"
+                            ? "Order"
+                            : "Download"
                         Layout.preferredWidth: currentBreakpoint === "small" ? 120 : 140
                         Layout.preferredHeight: currentBreakpoint === "small" ? 36 : 40
                         Layout.alignment: Qt.AlignHCenter
@@ -190,7 +192,7 @@ Item {
                                 anchors.topMargin: 1
                                 radius: parent.radius - 1
                                 color: "transparent"
-                                border.color: "#333333"
+                                border.color: "#222126"
                                 border.width: 1
                             }
                         }
@@ -232,7 +234,9 @@ Item {
                     */
                     Button {
                         id: toggleModulesBtn
-                        text: modulesExpanded ? "Hide Packs" : "Show Packs"
+                        text: productName === "DRC T-shirt"
+                            ? (modulesExpanded ? "Hide Sizes" : "Show Sizes")
+                            : (modulesExpanded ? "Hide Packs" : "Show Packs")
                         Layout.preferredWidth: currentBreakpoint === "small" ? 120 : 140
                         Layout.preferredHeight: currentBreakpoint === "small" ? 36 : 40
                         Layout.alignment: Qt.AlignHCenter
@@ -264,7 +268,7 @@ Item {
                                 anchors.topMargin: 1
                                 radius: parent.radius - 1
                                 color: "transparent"
-                                border.color: "#333333"
+                                border.color: "#222126"
                                 border.width: 1
                             }
                         }
