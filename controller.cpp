@@ -216,6 +216,15 @@ void Controller::launchInstaller(const QString &folderPath,
     int attempt = 0;
     bool started = false;
 
+    /*
+
+    this breaks sometimes
+
+    i dont know why, sometimes it works, sometimes it insta fails all 5 attempts.
+
+    todo: fix
+
+    */
     while (attempt < maxRetries) {
         started = QProcess::startDetached(installerPath, arguments);
         if (started) {
@@ -313,7 +322,6 @@ void Controller::cleanTempDir()
 
     qDebug() << "Cleaning temp files...";
 
-    // fuck extracted
     QDir extractedDir(extractedPath);
     if (extractedDir.exists()) {
         if (!extractedDir.removeRecursively()) {
@@ -323,7 +331,6 @@ void Controller::cleanTempDir()
         }
     }
 
-    // fuck zip files in temp
     QDir tempDir(tempPath);
     QStringList zipFiles = tempDir.entryList(QStringList() << "*.zip", QDir::Files);
     for (const QString &zip : zipFiles) {
