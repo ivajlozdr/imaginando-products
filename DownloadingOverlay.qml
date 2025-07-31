@@ -2,6 +2,15 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
+/*
+
+warning: this sucks
+
+it only tracks the download progress of the archive.
+no unzipping progress (cus powershell scks)
+
+*/
+
 Item {
     visible: controller.loading
     anchors.fill: parent

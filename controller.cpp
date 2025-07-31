@@ -174,7 +174,7 @@ void Controller::launchInstaller(const QString &folderPath,
     QString installerPath = folderPath + "/" + exeName;
     qDebug() << "Launching installer:" << installerPath;
 
-    /** 
+    /*
       
     arguments that decide how the installer behaves.
 
