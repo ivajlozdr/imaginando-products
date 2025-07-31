@@ -22,8 +22,27 @@ Item {
     readonly property int contentSpacing: currentBreakpoint === "small" ? 16 : 20
     readonly property int textSpacing: currentBreakpoint === "small" ? 6 : 8
 
+    property bool licensesExpanded: false
+    property var licenseModules: productModules.filter(function(module) {
+        const name = module?.name?.toLowerCase() || ""
+        return (
+            name.includes("license")
+        )
+    })
+    property var expansionModules: productModules.filter(function(module) {
+        const name = module?.name?.toLowerCase() || ""
+        return !(
+            name.includes("synth engine") ||
+            name.includes("unlock engine") ||
+            name.includes("factory pack") ||
+            name.includes("license")
+        )
+    })
+
     width: parent.width
-    height: baseHeight + (modulesExpanded ? modulesSection.implicitHeight + 20 : 0)
+    height: baseHeight
+            + (modulesExpanded ? modulesSection.implicitHeight + 20 : 0)
+            + (licensesExpanded ? licensesSection.implicitHeight + 20 : 0)
 
     Rectangle {
         id: cardShadow
@@ -222,6 +241,56 @@ Item {
                         }
                     }
 
+                    Button {
+                        id: purchaseBtn
+                        visible: licenseModules.length > 0
+                        text: licensesExpanded ? "Hide Licenses" : "Purchase"
+                        Layout.preferredWidth: currentBreakpoint === "small" ? 120 : 140
+                        Layout.preferredHeight: currentBreakpoint === "small" ? 36 : 40
+                        Layout.alignment: Qt.AlignHCenter
+
+                        background: Rectangle {
+                            radius: 8
+                            gradient: Gradient {
+                                GradientStop { position: 0.0; color: "#ff9800" }
+                                GradientStop { position: 1.0; color: "#f57c00" }
+                            }
+                            border.color: "#ef6c00"
+                            border.width: 1
+
+                            Rectangle {
+                                anchors.fill: parent
+                                anchors.topMargin: 1
+                                radius: parent.radius - 1
+                                color: "transparent"
+                                border.color: "#222126"
+                                border.width: 1
+                            }
+                        }
+
+                        contentItem: Text {
+                            text: purchaseBtn.text
+                            font.pixelSize: currentBreakpoint === "small" ? 13 : 14
+                            font.weight: Font.Medium
+                            color: "white"
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                        }
+
+                        scale: pressed ? 0.95 : (hovered ? 1.05 : 1.0)
+
+                        Behavior on scale {
+                            NumberAnimation {
+                                duration: 150
+                                easing.type: Easing.OutCubic
+                            }
+                        }
+
+                        onClicked: {
+                            licensesExpanded = !licensesExpanded
+                        }
+                    }
+
                     /*
 
                     This is fucked.
@@ -240,7 +309,7 @@ Item {
                         Layout.preferredWidth: currentBreakpoint === "small" ? 120 : 140
                         Layout.preferredHeight: currentBreakpoint === "small" ? 36 : 40
                         Layout.alignment: Qt.AlignHCenter
-
+                        visible: expansionModules.length > 0
                         background: Rectangle {
                             radius: 8
                             gradient: Gradient {
@@ -302,7 +371,7 @@ Item {
 
     ColumnLayout {
         id: modulesSection
-        anchors.top: cardBackground.bottom
+        anchors.top: licensesExpanded ? licensesSection.bottom : cardBackground.bottom
         anchors.left: cardBackground.left
         anchors.right: cardBackground.right
         visible: modulesExpanded
@@ -312,6 +381,14 @@ Item {
 
         Behavior on opacity {
                    NumberAnimation { duration: 200; easing.type: Easing.OutCubic }
+        }
+
+        Text {
+            text: "Available Expansion Packs"
+            font.pixelSize: 16
+            font.weight: Font.DemiBold
+            color: "white"
+            Layout.alignment: Qt.AlignHCenter
         }
 
         /*
@@ -324,10 +401,41 @@ Item {
 
         */
         Repeater {
-            model: productModules
+            model: expansionModules
+
             ModuleCard {
                 module: modelData
+            }
+        }
+    }
 
+    ColumnLayout {
+        id: licensesSection
+        anchors.top: cardBackground.bottom
+        anchors.left: cardBackground.left
+        anchors.right: cardBackground.right
+        visible: licensesExpanded
+        opacity: licensesExpanded ? 1 : 0
+        spacing: 10
+        anchors.margins: cardMargin
+
+        Behavior on opacity {
+            NumberAnimation { duration: 200; easing.type: Easing.OutCubic }
+        }
+
+        Text {
+            text: "Available Licenses"
+            font.pixelSize: 16
+            font.weight: Font.DemiBold
+            color: "white"
+            Layout.alignment: Qt.AlignHCenter
+        }
+
+        Repeater {
+            model: licenseModules
+
+            ModuleCard {
+                module: modelData
             }
         }
     }
