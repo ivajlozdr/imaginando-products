@@ -222,6 +222,7 @@ Rectangle {
                 NumberAnimation { duration: 200 }
             }
 
+            // currently just adds to https://www.imaginando.pt/cart/your-order , checkout is done in browser
             onClicked: {
                 if (purchase !== "") {
                     clickAnimation.start()

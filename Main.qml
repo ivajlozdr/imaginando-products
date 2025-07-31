@@ -226,6 +226,14 @@ ApplicationWindow {
             topMargin: cardSpacing
             bottomMargin: cardSpacing
 
+            /*
+
+            should change the way we handle non-desktop apps
+
+            -LK
+            -TKFX
+
+            */
             delegate: ProductCard {
                 width: listView.width
                 cardMargin: root.cardMargin

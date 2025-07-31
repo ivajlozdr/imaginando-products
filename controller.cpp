@@ -69,6 +69,7 @@ Product *Controller::modelAt(QQmlListProperty<Product> *list, qsizetype index)
                                                              : nullptr;
 }
 
+// UBRIDGE isnt listed in this endpoint
 void Controller::FetchProducts()
 {
     QNetworkRequest request(QUrl("https://api.imaginando.pt/products"));
