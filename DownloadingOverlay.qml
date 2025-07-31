@@ -7,10 +7,15 @@ import QtQuick.Layouts
 warning: this sucks
 
 it only tracks the download progress of the archive.
-no unzipping progress (cus powershell scks)
+
+no unzipping progress (cus powershell sucks, use an actual decompression library for that)
+
+kills itself right after installer has launched cause i have no idea how to
+implement a progress tracker for the installer progress.
+
+see controller.cpp for install() and launchInstaller()
 
 */
-
 Item {
     visible: controller.loading
     anchors.fill: parent

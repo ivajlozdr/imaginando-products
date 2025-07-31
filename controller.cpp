@@ -190,7 +190,7 @@ void Controller::launchInstaller(const QString &folderPath,
     QStringList arguments;
 
     switch (verbosity) {
-    case 1:
+    case 3:
         arguments << "/NORESTART";
         break;
 
@@ -201,7 +201,7 @@ void Controller::launchInstaller(const QString &folderPath,
                   << "/COMPONENTS=default";
         break;
 
-    case 3:
+    case 1:
     default:
         arguments << "/VERYSILENT"
                   << "/NOCANCEL"

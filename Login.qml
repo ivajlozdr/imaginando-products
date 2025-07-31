@@ -2,6 +2,16 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 
+
+/*
+
+simply a dummy
+
+no actual logic, just cool little design in my humble opinion.
+
+todo: make it work
+
+*/
 Item {
     width: parent.width
     implicitHeight: column.implicitHeight

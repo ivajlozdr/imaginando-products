@@ -220,6 +220,16 @@ Item {
                         }
                     }
 
+                    /*
+
+                    This is fucked.
+
+                    fucked fucked.
+
+                    if you do not click each product card's module button IN ORDER,
+                    it starts glitching out.
+
+                    */
                     Button {
                         id: toggleModulesBtn
                         text: modulesExpanded ? "Hide Packs" : "Show Packs"
